@@ -87,4 +87,14 @@ class SharedPreferencesUtil (context: Context) {
         return prefs.getString(key, null)
     }
 
+    fun getString(key:String): String? {
+        return preferences.getString(key, null)
+    }
+
+    fun addString(key: String, value: String) {
+        val editor = preferences.edit()
+        editor.putString(key, value)
+        editor.apply()
+    }
+
 }

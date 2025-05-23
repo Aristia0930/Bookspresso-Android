@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ssafy.bookspresso.base.ApplicationClass
 import com.ssafy.bookspresso.data.model.dto.User
 import com.ssafy.bookspresso.data.remote.RetrofitUtil
 import kotlinx.coroutines.launch
@@ -27,9 +28,19 @@ class LoginFragmentViewModel : ViewModel() {
         // retrofit으로 호출
         viewModelScope.launch {
             runCatching {
-                RetrofitUtil.userService.login(User(loginId, loginPass))
+                val response = RetrofitUtil.userService.login(User(loginId, loginPass))
+                val token = response.headers()["Authorization"]
+
+                ApplicationClass.sharedPreferencesUtil.addString("Authorization", "$token")
             }.onSuccess {
-                _user.value = it
+                runCatching {
+                    RetrofitUtil.userService.info(User(loginId, loginPass))
+                }.onSuccess {
+                    _user.value = it
+                }.onFailure {
+                    _user.value = User()
+                }
+
             }.onFailure {
                 _user.value = User()
             }
