@@ -1,0 +1,43 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.SmartstoreUI" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/coffee_brown</item>
+        <item name="colorPrimaryVariant">@color/coffee_brown</item>
+
+        <!--ratingBar-->
+        <item name="colorControlNormal">@color/coffee_light_gray</item>
+        <item name="colorControlActivated">@color/coffee_point_red</item>
+
+    </style>
+
+
+    <style name="AppTheme" parent="android:Theme.Material">
+        <item name="android:colorPrimaryDark">@color/coffee_brown</item>
+    </style>
+
+    <style name="Text.Regular" parent="android:TextAppearance">
+        <item name="android:textStyle">normal</item>
+        <item name="android:textColor">@color/coffee_dark_brown</item>
+        <item name="android:fontFamily">@font/eland_choice_m</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
+    <style name="Text.Title" parent="android:TextAppearance">
+        <item name="android:textStyle">normal</item>
+        <item name="android:textColor">@color/coffee_dark_brown</item>
+        <item name="android:fontFamily">@font/eland_choice_b</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
+    <style name="Text.light" parent="android:TextAppearance">
+        <item name="android:textStyle">normal</item>
+        <item name="android:textColor">@color/coffee_dark_brown</item>
+        <item name="android:fontFamily">@font/eland_choice_l</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
+
+    <style name="BottomNavigation" parent="Widget.MaterialComponents.BottomNavigationView.Colored">
+        <item name="android:background">@color/coffee_brown</item>
+    </style>
+
+
+</resources>
