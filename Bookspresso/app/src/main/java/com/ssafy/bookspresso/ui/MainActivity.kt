@@ -8,6 +8,7 @@ import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothManager
 import android.content.Intent
 import android.content.IntentFilter
+import android.graphics.Region
 import android.nfc.NdefMessage
 import android.nfc.NfcAdapter
 import android.os.Build
@@ -32,13 +33,7 @@ import com.ssafy.bookspresso.ui.order.MapFragment
 import com.ssafy.bookspresso.ui.order.MenuDetailFragment
 import com.ssafy.bookspresso.ui.order.OrderFragment
 import com.ssafy.bookspresso.ui.order.ShoppingListFragment
-import org.altbeacon.beacon.Beacon
-import org.altbeacon.beacon.BeaconManager
-import org.altbeacon.beacon.BeaconParser
-import org.altbeacon.beacon.Identifier
-import org.altbeacon.beacon.MonitorNotifier
-import org.altbeacon.beacon.RangeNotifier
-import org.altbeacon.beacon.Region
+import org.intellij.lang.annotations.Identifier
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -51,7 +46,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     private lateinit var filters: Array<IntentFilter>
     private lateinit var pIntent: PendingIntent
 
-    private lateinit var beaconManager: BeaconManager
     private lateinit var bluetoothAdapter: BluetoothAdapter
     private var hasShownBeaconDialog = false
 
@@ -110,8 +104,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
 
         setNdef()
 
-        setBeacon()
-
         createNotificationChannel("ssafy_channel", "ssafy")
 
         checkPermissions()
@@ -139,6 +131,13 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
 
                 R.id.navigation_page_3 -> {
                     supportFragmentManager.beginTransaction()
+                        .replace(R.id.frame_layout_main, OrderFragment())
+                        .commit()
+                    true
+                }
+
+                R.id.navigation_page_4 -> {
+                    supportFragmentManager.beginTransaction()
                         .replace(R.id.frame_layout_main, MyPageFragment())
                         .commit()
                     true
@@ -155,8 +154,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
             }
         }
 
-        beaconManager = BeaconManager.getInstanceForApplication(this)
-        beaconManager.beaconParsers.add(BeaconParser().setBeaconLayout("m:2-3=0215,i:4-19,i:20-21,i:22-23,p:24-24"))
 
         val bluetoothManager = getSystemService(BLUETOOTH_SERVICE) as BluetoothManager
         bluetoothAdapter = bluetoothManager.adapter
@@ -232,26 +229,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
 
     }
 
-    private fun setBeacon() {
-
-    }
-
-    override fun onStart() {
-        super.onStart()
-        /* permission check */
-        if (!checker.checkPermission(this, runtimePermissions)) {
-            checker.setOnGrantedListener{
-                //퍼미션 획득 성공일때
-                startScan()
-            }
-
-            checker.requestPermissionLauncher.launch(runtimePermissions)
-        } else { //이미 전체 권한이 있는 경우
-            startScan()
-        }
-        /* permission check */
-    }
-
     // NotificationChannel 설정
     private fun createNotificationChannel(id: String, name: String) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -298,114 +275,5 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
             Manifest.permission.ACCESS_COARSE_LOCATION
         )
     }
-    //비콘연결
-
-    private val region = Region(
-        "estimote",
-        listOf(
-            Identifier.parse(BEACON_UUID),
-            Identifier.parse(BEACON_MAJOR),
-            Identifier.parse(BEACON_MINOR)),
-        BLUETOOTH_ADDRESS
-    )
-    private val requestBLEActivity: ActivityResultLauncher<Intent> = registerForActivityResult(
-        ActivityResultContracts.StartActivityForResult() ){
-        // 사용자의 블루투스 사용이 가능한지 확인
-        if (bluetoothAdapter.isEnabled) {
-            startScan()
-        }
-    }
-    private fun startScan() {
-        if ( !bluetoothAdapter.isEnabled ) {
-            val callBLEEnableIntent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
-            requestBLEActivity.launch(callBLEEnableIntent)
-        }
-        Log.d(TAG, "startScan: ")
-
-        // 리전에 비컨이 있는지 없는지..정보를 받는 클래스 지정
-        beaconManager.addMonitorNotifier(monitorNotifier)
-        beaconManager.startMonitoring(region)
-
-        //detacting되는 해당 region의 beacon정보를 받는 클래스 지정.
-        beaconManager.addRangeNotifier(rangeNotifier)
-        beaconManager.startRangingBeacons(region)
-    }
-
-    var monitorNotifier: MonitorNotifier = object : MonitorNotifier {
-        override fun didEnterRegion(region: Region) {
-            Log.d(TAG, "didEnterRegion: 비콘 접근완료")
-
-            val today = SimpleDateFormat("yyyyMMdd", Locale.KOREA).format(Date())
-            val lastShownDate = ApplicationClass.sharedPreferencesUtil.getLastShownDate(this@MainActivity, "last_beacon_alert_date")
-            if (lastShownDate == today) return
-            if (hasShownBeaconDialog) return
-            hasShownBeaconDialog = true
-
-            ApplicationClass.sharedPreferencesUtil.saveLastShownDate(this@MainActivity, "last_beacon_alert_date", today)
-            runOnUiThread {
-                val dialogView = layoutInflater.inflate(R.layout.dialog_store_event, null)
-
-                // 이미지 바꾸기 (Glide 사용 시)
-                val imageView = dialogView.findViewById<ImageView>(R.id.iv_dialog_store_event_img)
-                Glide.with(this@MainActivity)
-                    .load(R.drawable.logo)  // 필요한 경우 URL로 교체 가능
-                    .into(imageView)
-
-                AlertDialog.Builder(this@MainActivity)
-                    .setView(dialogView)
-                    .setPositiveButton("확인") { dialog, _ ->
-                        dialog.dismiss()
-                    }
-                    .create()
-                    .show()
-            }
-
-        }
-
-        override fun didExitRegion(region: Region) { //발견 못함.
-            Log.d(TAG, "I no longer see an beacon")
-        }
-
-        override fun didDetermineStateForRegion(state: Int, region: Region) { //상태변경
-            Log.d(TAG, "I have just switched from seeing/not seeing beacons: $state")
-        }
-    }
-
-    //매초마다 해당 리전의 beacon 정보들을 collection으로 제공받아 처리한다.
-    var rangeNotifier: RangeNotifier = object : RangeNotifier {
-        override fun didRangeBeaconsInRegion(beacons: MutableCollection<Beacon>?, region: Region?) {
-            beacons?.run{
-                if (isNotEmpty()) {
-                    forEach { beacon ->
-                        val msg = "distance: " + beacon.distance
-                        // 사정거리 내에 있을 경우 이벤트 표시 다이얼로그 팝업
-                        if (beacon.distance <= BEACON_DISTANCE) {
-                            Log.d(TAG, "didRangeBeaconsInRegion: distance 이내.")
-                            val textView = TextView(this@MainActivity).apply{
-                                text = "$msg"
-                            }
-
-
-                        } else {
-//                            Log.d(TAG, "didRangeBeaconsInRegion: distance 이외.")
-                        }
-//                        Log.d( TAG,"distance: " + beacon.distance + " id:" + beacon.id1 + "/" + beacon.id2 + "/" + beacon.id3)
-
-                    }
-                }
-                if (isEmpty()) {
-//                    Log.d(TAG, "didRangeBeaconsInRegion: 비컨을 찾을 수 없습니다.")
-                }
-            }
-        }
-    }
-
-    override fun onStop() {
-        super.onStop()
-        Log.d(TAG, "onStop: stopScan")
-        beaconManager.stopMonitoring(region)
-        beaconManager.stopRangingBeacons(region)
-    }
-
 
 }
