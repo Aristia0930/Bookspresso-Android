@@ -46,6 +46,12 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::i
                 supportFragmentManager.popBackStack()
                 transaction.replace(R.id.frame_layout_login, LoginFragment())
             }
+            4 -> {
+                val intent = Intent(this, ManagerActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent)
+            }
         }
         transaction.commit()
     }
