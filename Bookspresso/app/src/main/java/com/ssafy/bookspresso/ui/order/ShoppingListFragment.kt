@@ -16,6 +16,11 @@ import com.ssafy.bookspresso.data.model.dto.OrderDetail
 import com.ssafy.bookspresso.databinding.FragmentShoppingListBinding
 import com.ssafy.bookspresso.ui.MainActivity
 import com.ssafy.bookspresso.ui.MainActivityViewModel
+import com.ssafy.bookspresso.util.CommonUtils.dateformatYMDHM
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
+import java.util.TimeZone
 
 private const val TAG = "ShoppingListF_싸피"
 const val ORDER_ID = "orderId"
@@ -167,11 +172,14 @@ class ShoppingListFragment : BaseFragment<FragmentShoppingListBinding>(FragmentS
 
         showToast("주문이 완료되었습니다.")
 
+        val isoFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX", Locale.KOREA)
+        isoFormat.timeZone = TimeZone.getTimeZone("Asia/Seoul")
+        val nowIsoStr = isoFormat.format(Date())
         val order = Order(
             id = 0,
             userId = userId,
             orderTable = table,
-            orderTime = "",
+            orderTime = nowIsoStr,
             completed = "N", // 초기값으로 "false" 지정 (완료 여부)
             details = ArrayList(orderDetails)
         )
