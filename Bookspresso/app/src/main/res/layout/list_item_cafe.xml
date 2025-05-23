@@ -18,8 +18,7 @@
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_gravity="center_vertical"
-            android:contentDescription="Menu Item Icon"
-            android:src="[https://placehold.co/80x80/FFC0CB/000000?text=Item](https://placehold.co/80x80/FFC0CB/000000?text=Item)" />
+            android:contentDescription="Menu Item Icon"/>
 
         <LinearLayout
             android:layout_width="0dp"
