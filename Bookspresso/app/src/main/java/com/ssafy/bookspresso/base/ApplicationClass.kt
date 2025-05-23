@@ -19,7 +19,7 @@ class ApplicationClass : Application() {
 
         // ipconfig를 통해 ip확인하기
         // 핸드폰으로 접속은 같은 인터넷으로 연결 되어있어야함 (유,무선)
-//        const val SERVER_URL = "http://192.168.33.33:9987/"
+//        const val SERVER_URL = "http://192.168.0.4:9987/"
         const val SERVER_URL = "https://port-0-bookcafe-m5al105w4c7a25c2.sel4.cloudtype.app/"
         const val MENU_IMGS_URL = "https://firebasestorage.googleapis.com/v0/b/newproject03-8726c.appspot.com/o/"
         const val IMGS_URL = "${SERVER_URL}imgs/"
