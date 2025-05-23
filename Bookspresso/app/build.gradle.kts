@@ -61,10 +61,6 @@ dependencies {
     implementation(platform("com.google.firebase:firebase-bom:32.3.1"))
     implementation ("com.google.firebase:firebase-messaging-ktx")
 
-    // Beacon 사용위한 Dependency 추가
-    //Android beacon Library. https://github.com/AltBeacon/android-beacon-library
-    implementation ("org.altbeacon:android-beacon-library:2.19")
-
     // https://github.com/square/retrofit
     implementation ("com.squareup.retrofit2:retrofit:2.9.0")
 

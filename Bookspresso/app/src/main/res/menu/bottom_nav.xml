@@ -4,15 +4,20 @@
         android:id="@+id/navigation_page_1"
         android:enabled="true"
         android:title="Home"
-        android:icon="@drawable/home"/>
+        android:icon="@drawable/home_app_logo_24px"/>
     <item
         android:id="@+id/navigation_page_2"
         android:enabled="true"
-        android:title="Order"
-        android:icon="@drawable/shopping_list"/>
+        android:title="Cafe"
+        android:icon="@drawable/local_cafe_24px"/>
     <item
         android:id="@+id/navigation_page_3"
         android:enabled="true"
+        android:title="Book"
+        android:icon="@drawable/book_5_24px"/>
+    <item
+        android:id="@+id/navigation_page_4"
+        android:enabled="true"
         android:title="Mypage"
-        android:icon="@drawable/user"/>
+        android:icon="@drawable/person_24px"/>
 </menu>
