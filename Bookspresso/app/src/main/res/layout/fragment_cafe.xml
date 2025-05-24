@@ -20,10 +20,8 @@
             android:layout_height="match_parent"
             android:layout_gravity="center_horizontal"
             android:paddingVertical="24dp"
-            android:background="@color/coffee_dark_brown"
-            android:text="음료 &amp; 디저트"
-            android:textAlignment="center"
-            android:textColor="@android:color/white"
+            android:text="Drink &amp; Dessert"
+            android:layout_marginStart="16dp"
             android:textSize="24sp"
             android:textStyle="bold" />
 
@@ -31,16 +29,18 @@
             android:id="@+id/tab_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/coffee_brown_light"
-            app:tabGravity="fill"
-            app:tabIndicatorColor="@color/black"
-            app:tabMode="fixed"
-            app:tabSelectedTextColor="@color/white"
+            android:layout_gravity="center"
+            android:background="@drawable/tab_background"
+            android:padding="4dp"
+            app:tabIndicator="@color/coffee_light_gray"
+            app:tabIndicatorColor="@color/white"
+            app:tabSelectedTextColor="@color/coffee_light_white"
             app:tabTextColor="@color/coffee_light_gray">
 
             <com.google.android.material.tabs.TabItem
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="@color/coffee_dark_brown"
                 android:text="음료" />
 
             <com.google.android.material.tabs.TabItem
@@ -56,13 +56,27 @@
         android:id="@+id/menu_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:padding="16dp"
+        android:paddingHorizontal="16dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/header_section"
         tools:listitem="@layout/list_item_cafe" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floatingBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:src="@drawable/shopping_cart"
+        app:backgroundTint="@color/coffee_brown_light"
+        app:elevation="6dp"
+        app:fabSize="normal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:useCompatPadding="true" />
 </androidx.constraintlayout.widget.ConstraintLayout>
 
 

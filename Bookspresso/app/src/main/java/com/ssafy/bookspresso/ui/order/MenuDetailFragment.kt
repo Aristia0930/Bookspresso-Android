@@ -49,9 +49,9 @@ class MenuDetailFragment : BaseFragment<FragmentMenuDetailBinding>(FragmentMenuD
 
         initListener()
 
-        binding.recyclerViewMenuDetail.apply {
-            adapter = commentAdapter
-        }
+//        binding.recyclerViewMenuDetail.apply {
+//            adapter = commentAdapter
+//        }
 
         commentAdapter.delete(object :CommentAdapter.ItemClickListener{
             override fun onClick(id: Int, productId: Int) {
@@ -68,34 +68,34 @@ class MenuDetailFragment : BaseFragment<FragmentMenuDetailBinding>(FragmentMenuD
 
         })
 
-        binding.btnCreateComment.setOnClickListener {
-            val comment=binding.etCreateComment.text.toString()
-            val userId=ApplicationClass.sharedPreferencesUtil.getUser().id
-            val productId = viewModel.productId
-
-
-            // 다이얼로그 레이아웃 인플레이트
-            val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_menu_comment, null)
-
-            val ratingBar = dialogView.findViewById<RatingBar>(R.id.ratingBarMenuDialogComment)
-
-            AlertDialog.Builder(requireContext())
-                .setTitle("리뷰 작성")
-                .setView(dialogView)
-                .setPositiveButton("확인") { dialog, _ ->
-                    val rating = ratingBar.rating
-
-                    val comment=Comment(userId,productId,rating, comment )
-                    viewModel.insertComment(comment)
-//                    Toast.makeText(requireContext(), "선택한 별점: $rating", Toast.LENGTH_SHORT).show()
-                    dialog.dismiss()
-                }
-                .setNegativeButton("취소") { dialog, _ ->
-                    dialog.dismiss()
-                }
-                .create()
-                .show()
-        }
+//        binding.btnCreateComment.setOnClickListener {
+//            val comment=binding.etCreateComment.text.toString()
+//            val userId=ApplicationClass.sharedPreferencesUtil.getUser().id
+//            val productId = viewModel.productId
+//
+//
+//            // 다이얼로그 레이아웃 인플레이트
+//            val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_menu_comment, null)
+//
+//            val ratingBar = dialogView.findViewById<RatingBar>(R.id.ratingBarMenuDialogComment)
+//
+//            AlertDialog.Builder(requireContext())
+//                .setTitle("리뷰 작성")
+//                .setView(dialogView)
+//                .setPositiveButton("확인") { dialog, _ ->
+//                    val rating = ratingBar.rating
+//
+//                    val comment=Comment(userId,productId,rating, comment )
+//                    viewModel.insertComment(comment)
+////                    Toast.makeText(requireContext(), "선택한 별점: $rating", Toast.LENGTH_SHORT).show()
+//                    dialog.dismiss()
+//                }
+//                .setNegativeButton("취소") { dialog, _ ->
+//                    dialog.dismiss()
+//                }
+//                .create()
+//                .show()
+//        }
 
     }
 
@@ -120,8 +120,8 @@ class MenuDetailFragment : BaseFragment<FragmentMenuDetailBinding>(FragmentMenuD
 
         binding.txtMenuName.text = response.productName
         binding.txtMenuPrice.text = "${CommonUtils.makeComma(response.productPrice)}"
-        binding.tvAverage.text = "${DecimalFormat("#.#").format(response.productRatingAvg)} 점"
-        binding.ratingBar.rating = response.productRatingAvg.toFloat()
+//        binding.tvAverage.text = "${DecimalFormat("#.#").format(response.productRatingAvg)} 점"
+//        binding.ratingBar.rating = response.productRatingAvg.toFloat()
     }
 
 
@@ -155,9 +155,9 @@ class MenuDetailFragment : BaseFragment<FragmentMenuDetailBinding>(FragmentMenuD
         }
 
 
-        binding.btnCreateComment.setOnClickListener {
-            showDialogRatingStar()
-        }
+//        binding.btnCreateComment.setOnClickListener {
+//            showDialogRatingStar()
+//        }
 
     }
 

@@ -63,6 +63,11 @@ class CafeFragment : BaseFragment<FragmentCafeBinding>(FragmentCafeBinding::bind
             override fun onTabReselected(tab: TabLayout.Tab?) {}
         })
 
+        binding.floatingBtn.setOnClickListener{
+            //장바구니 이동
+            mainActivity.openFragment(1)
+        }
+
     }
 
     private fun initData(){
