@@ -1,0 +1,107 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#DCDCDC">
+
+    <!-- 상단 이미지 -->
+
+    <!-- 스크롤 가능한 설명 부분 -->
+    <ImageView
+        android:id="@+id/menuImage"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2.7"
+        android:contentDescription="menu image"
+        tools:src="@drawable/coffee1" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2"
+        android:padding="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:orientation="vertical"
+            android:background="@drawable/image_round_background"
+            android:padding="20dp"
+            android:elevation="4dp">
+
+            <!-- 메뉴 이름 -->
+            <TextView
+                android:id="@+id/txtMenuName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="아메리카노"
+                android:textSize="24sp"
+                android:textColor="#222222"
+                android:textStyle="bold"
+                tools:text="아메리카노" />
+
+            <!-- 가격 -->
+            <TextView
+                android:id="@+id/txtMenuPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="4,000원"
+                android:textSize="18sp"
+                android:textColor="#666666"
+                android:textStyle="bold"
+                tools:text="4,000원" />
+
+            <!-- 수량 조절 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_marginTop="20dp">
+
+                <ImageButton
+                    android:id="@+id/btnMinusCount"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:src="@drawable/remove_24px"
+                    android:foregroundTint="@color/black"
+                    android:backgroundTint="@color/white"
+                    android:elevation="10dp"
+                    android:contentDescription="minus" />
+
+                <TextView
+                    android:id="@+id/textMenuCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="1"
+                    android:textSize="20sp"
+                    android:layout_marginHorizontal="24dp" />
+
+                <ImageButton
+                    android:id="@+id/btnAddCount"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:src="@drawable/add_24px"
+                    android:foregroundTint="@color/black"
+                    android:backgroundTint="@color/white"
+                    android:elevation="10dp"
+                    android:contentDescription="add" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- 하단 버튼 -->
+    <Button
+        android:id="@+id/btnAddList"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:text="장바구니에 담기"
+        android:textSize="16sp"
+        android:textColor="@android:color/white"
+        android:background="@drawable/image_round_background"
+        android:layout_margin="12dp" />
+</LinearLayout>
