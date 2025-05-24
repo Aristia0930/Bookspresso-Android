@@ -11,4 +11,6 @@ interface BookService {
     @GET("rest/book")
     suspend fun getBookList(): List<Book>
 
+    @GET("rest/book/{isbn}")
+    suspend fun getBook(@Path("isbn") isbn: String): Book
 }

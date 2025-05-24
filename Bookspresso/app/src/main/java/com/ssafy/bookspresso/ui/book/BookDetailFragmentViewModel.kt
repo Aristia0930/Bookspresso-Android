@@ -6,80 +6,38 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ssafy.bookspresso.data.model.dto.Book
 import com.ssafy.bookspresso.data.model.dto.Comment
 import com.ssafy.bookspresso.data.model.response.ProductWithCommentResponse
 import com.ssafy.bookspresso.data.remote.RetrofitUtil
 import kotlinx.coroutines.launch
 
 private const val TAG = "MenuDetailFragmentViewM_싸피"
-class MenuDetailFragmentViewModel(private val handle: SavedStateHandle): ViewModel() {
-    var productId = handle.get<Int>("productId") ?: 0
+class BookDetailFragmentViewModel(private val handle: SavedStateHandle): ViewModel() {
+    var isbn = handle.get<String>("isbn") ?: ""
         set(value){
-            handle.set("productId", value)
+            handle.set("isbn", value)
             field = value
         }
 
-    private val _productInfo = MutableLiveData<ProductWithCommentResponse>()
-    val productInfo: LiveData<ProductWithCommentResponse>
-        get() = _productInfo
+    private val _bookInfo = MutableLiveData<Book>()
+    val bookInfo: LiveData<Book>
+        get() = _bookInfo
 
-    fun getProductInfo(){
-        getProductInfo(productId)
+    fun getBookInfo(){
+        getBookInfo(isbn)
     }
 
-    fun getProductInfo(pId:Int) {
+    fun getBookInfo(isbn: String) {
         viewModelScope.launch{
-            var info:ProductWithCommentResponse
+            var info:Book
             try{
-                info = RetrofitUtil.productService.getProductWithComments(pId)
+                info = RetrofitUtil.bookService.getBook(isbn)
             }catch (e:Exception){
-                info = ProductWithCommentResponse()
+                info = Book()
             }
-            _productInfo.value = info
+            _bookInfo.value = info
         }
     }
-
-    fun insertComment(dto: Comment){
-        viewModelScope.launch {
-            try{
-                RetrofitUtil.commentService.insert(dto)
-                getProductInfo(dto.productId)
-            }catch (e:Exception){
-                Log.d(TAG, "insertComment: 실패")
-            }
-
-
-        }
-    }
-
-    //댓글 삭제
-    fun deleteComment(id:Int,productId:Int){
-        viewModelScope.launch {
-            try{
-                RetrofitUtil.commentService.delete(id)
-                getProductInfo(productId)
-            }catch (e:Exception){
-                Log.d(TAG, "insertComment: 실패")
-            }
-
-
-        }
-    }
-
-    //댓글 업데이트
-    fun updateComment(dto:Comment){
-        viewModelScope.launch {
-            try{
-                RetrofitUtil.commentService.update(dto)
-                getProductInfo(productId)
-            }catch (e:Exception){
-                Log.d(TAG, "insertComment: 실패")
-            }
-
-
-        }
-    }
-
-
 
 }

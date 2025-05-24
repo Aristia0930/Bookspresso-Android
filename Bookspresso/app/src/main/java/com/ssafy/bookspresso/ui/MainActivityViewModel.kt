@@ -35,7 +35,7 @@ class MainActivityViewModel : ViewModel() {
     }
 
     private val _bookId = MutableLiveData<String>()
-    val bookId: LiveData<String>
+    val isbn: LiveData<String>
         get() = _bookId
 
 

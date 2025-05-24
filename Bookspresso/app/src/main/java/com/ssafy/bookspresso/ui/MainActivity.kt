@@ -26,6 +26,7 @@ import com.ssafy.bookspresso.R
 import com.ssafy.bookspresso.base.ApplicationClass
 import com.ssafy.bookspresso.base.BaseActivity
 import com.ssafy.bookspresso.databinding.ActivityMainBinding
+import com.ssafy.bookspresso.ui.book.BookDetailFragment
 import com.ssafy.bookspresso.ui.book.BookFragment
 import com.ssafy.bookspresso.ui.cafe.CafeFragment
 import com.ssafy.bookspresso.ui.home.HomeFragment
@@ -195,8 +196,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
             //메뉴 상세 보기
             3 -> transaction.replace(R.id.frame_layout_main, MenuDetailFragment())
                 .addToBackStack(null)
-            //map으로 가기
-            4 -> transaction.replace(R.id.frame_layout_main, MapFragment())
+            //책 상세 보기
+            4 -> transaction.replace(R.id.frame_layout_main, BookDetailFragment())
                 .addToBackStack(null)
             //logout
             5 -> {

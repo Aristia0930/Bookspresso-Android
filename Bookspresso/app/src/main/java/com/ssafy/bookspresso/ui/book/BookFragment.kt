@@ -32,7 +32,7 @@ class BookFragment : BaseFragment<FragmentBookBinding>(FragmentBookBinding::bind
 
         bookAdapter = BookAdapter(arrayListOf()) { bookId ->
             activityViewModel.setBookId(bookId)
-            mainActivity.openFragment(3)
+            mainActivity.openFragment(4)
         }
 
         binding.recyclerViewBook.apply {
