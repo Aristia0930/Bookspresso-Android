@@ -26,6 +26,7 @@ import com.ssafy.bookspresso.R
 import com.ssafy.bookspresso.base.ApplicationClass
 import com.ssafy.bookspresso.base.BaseActivity
 import com.ssafy.bookspresso.databinding.ActivityMainBinding
+import com.ssafy.bookspresso.ui.book.BookFragment
 import com.ssafy.bookspresso.ui.cafe.CafeFragment
 import com.ssafy.bookspresso.ui.home.HomeFragment
 import com.ssafy.bookspresso.ui.my.MyPageFragment
@@ -132,7 +133,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
 
                 R.id.navigation_page_3 -> {
                     supportFragmentManager.beginTransaction()
-                        .replace(R.id.frame_layout_main, OrderFragment())
+                        .replace(R.id.frame_layout_main, BookFragment())
                         .commit()
                     true
                 }

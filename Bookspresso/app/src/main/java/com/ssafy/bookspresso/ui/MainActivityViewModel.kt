@@ -34,6 +34,15 @@ class MainActivityViewModel : ViewModel() {
         _productId.value = productId
     }
 
+    private val _bookId = MutableLiveData<String>()
+    val bookId: LiveData<String>
+        get() = _bookId
+
+
+    fun setBookId(bookId: String) {
+        _bookId.value = bookId
+    }
+
     //주문 상세내역
     private val _orderDetail = MutableLiveData<OrderResponse>()
     val orderDetail: LiveData<OrderResponse>

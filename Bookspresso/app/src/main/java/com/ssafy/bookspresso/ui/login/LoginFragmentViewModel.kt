@@ -38,10 +38,12 @@ class LoginFragmentViewModel : ViewModel() {
                 }.onSuccess {
                     _user.value = it
                 }.onFailure {
+                    Log.d(TAG, "login222: ${it.cause}")
                     _user.value = User()
                 }
 
             }.onFailure {
+                Log.d(TAG, "login: ${it.cause}")
                 _user.value = User()
             }
         }
