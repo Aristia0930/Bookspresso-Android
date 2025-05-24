@@ -80,10 +80,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(
             }
         })
 
-        binding.recyclerViewLatestOrder.apply {
-            layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-            adapter = orderAdapter
-        }
+//        binding.recyclerViewLatestOrder.apply {
+//            layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+//            adapter = orderAdapter
+//        }
 
     }
 

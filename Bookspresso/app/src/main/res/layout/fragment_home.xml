@@ -1,76 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:backgroundTint="@color/coffee_light_white"
+    android:orientation="vertical"
     android:padding="16dp">
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:id="@+id/textUserName"
         style="@style/Text.Title"
-        android:textSize="30dp"
-        android:text="벼락부자핫도그님" />
-    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingTop="5dp"
-        android:layout_marginBottom="20dp">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            style="@style/Text.light"
-            android:textSize="20dp"
-            android:text="좋은 하루 보내세요."/>
+        android:text="벼락부자핫도그님"
+        android:textSize="30dp" />
 
-        <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:src="@drawable/smile"/>
-    </LinearLayout>
     <TextView
+        style="@style/Text.light"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="알림판"
-        android:textSize="25dp"
+        android:text="&quot;책 향기와 커피 향기가 머무는 공간&quot;"
+        android:layout_marginBottom="8dp"
+        android:textSize="20dp" />
+
+    <TextView
         style="@style/Text.Title"
-        android:layout_marginBottom="20dp"/>
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:text="공지사항"
+        android:textSize="25dp" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewNoticeOrder"
-        android:background="@drawable/textview_regular"
+        android:id="@+id/recyclerViewNotice"
         android:layout_width="match_parent"
         android:layout_height="120dp"
         android:layout_marginBottom="20dp"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+        android:background="@drawable/textview_regular"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
+
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="최근 주문"
-            android:textSize="25dp"
             style="@style/Text.Title"
-            android:layout_marginBottom="10dp"/>
-        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="4dp"
-            android:text="(1개월)"
-            android:textSize="16dp"
-            style="@style/Text.Regular"
-            android:layout_marginBottom="20dp"/>
+            android:layout_marginBottom="10dp"
+            android:text="오늘의 책"
+            android:textSize="25dp" />
+
     </LinearLayout>
+
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewLatestOrder"
+        android:id="@+id/recyclerViewRecommendation"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        android:orientation="horizontal"/>
+        android:orientation="horizontal"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
 </LinearLayout>

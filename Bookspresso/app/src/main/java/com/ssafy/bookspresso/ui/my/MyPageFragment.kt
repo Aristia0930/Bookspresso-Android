@@ -122,18 +122,18 @@ class MyPageFragment : BaseFragment<FragmentMypageBinding>(
             val grade = it.grade
             val user = it.user
 
-            context?.let { it1 ->
-                Glide.with(it1)
-                    .load("${ApplicationClass.GRADE_URL}${grade.img}")
-                    .into(binding.imageLevel)
-            }
-
-            binding.textUserLevel.text = "${grade.title} ${grade.step}단계"
-            binding.proBarUserLevel.max = grade.stepMax
-            binding.proBarUserLevel.progress = grade.to
-
-            binding.textUserNextLevel.text = "${grade.to}/${grade.stepMax}"
-            binding.textLevelRest.text = "다음 레벨까지 ${grade.stepMax - grade.to}잔 남았습니다."
+//            context?.let { it1 ->
+//                Glide.with(it1)
+//                    .load("${ApplicationClass.GRADE_URL}${grade.img}")
+//                    .into(binding.imageLevel)
+//            }
+//
+//            binding.textUserLevel.text = "${grade.title} ${grade.step}단계"
+//            binding.proBarUserLevel.max = grade.stepMax
+//            binding.proBarUserLevel.progress = grade.to
+//
+//            binding.textUserNextLevel.text = "${grade.to}/${grade.stepMax}"
+//            binding.textLevelRest.text = "다음 레벨까지 ${grade.stepMax - grade.to}잔 남았습니다."
 
         }
     }
