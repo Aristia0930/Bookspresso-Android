@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:backgroundTint="@color/coffee_light_white"
+    android:orientation="vertical"
     android:padding="16dp">
 
 
@@ -49,89 +50,48 @@
     </LinearLayout>
 
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <ImageView
-            android:id="@+id/imageLevel"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:src="@drawable/seeds"/>
-        <TextView
-            android:id="@+id/textUserLevel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            style="@style/Text.Title"
-            android:textSize="20dp"
-            android:text="씨앗 2단계"/>
-        <ProgressBar
-            android:id="@+id/proBarUserLevel"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_weight="1"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:indeterminateTint="@color/coffee_brown" />
-        <TextView
-            android:id="@+id/textUserNextLevel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            style="@style/Text.Title"
-            android:textSize="10dp"
-            android:text="2/10"
-            android:paddingLeft="10dp"/>
-    </LinearLayout>
-
     <TextView
-        android:id="@+id/textLevelRest"
+        style="@style/Text.Title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="다음 레벨까지 8잔 남았습니다."
         android:layout_marginBottom="20dp"
-        android:textColor="@color/coffee_light_gray"/>
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:scaleType="fitCenter"
-        android:layout_gravity="center"
-        android:src="@drawable/space"
-        android:layout_marginBottom="30dp"/>
+        android:text="내 서재"
+        android:textSize="25dp" />
 
-    <LinearLayout
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewMyBook"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+    <TextView
+        style="@style/Text.Title"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="주문내역"
-            android:textSize="25dp"
-            style="@style/Text.Title"
-            android:layout_marginBottom="20dp"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="4dp"
-            android:text="(최근 6개월)"
-            android:textSize="16dp"
-            style="@style/Text.Regular"
-            android:layout_marginBottom="20dp"/>
-    </LinearLayout>
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:text="주문내역"
+        android:textSize="25dp" />
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewOrder"
         android:layout_width="match_parent"
-        android:layout_height="250dp" />
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
     <TextView
         android:id="@+id/tvMypageOrderEmpty"
+        style="@style/Text.Title"
         android:layout_width="match_parent"
         android:layout_height="250dp"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/button_non_color"
         android:gravity="center"
         android:text="주문 내역이 없습니다"
         android:textSize="30sp"
-        tools:visibility="gone"
         android:visibility="gone"
-        style="@style/Text.Title"
-        android:background="@drawable/button_non_color"
-        android:layout_marginBottom="20dp"
-        />
+        tools:visibility="gone" />
 </LinearLayout>
