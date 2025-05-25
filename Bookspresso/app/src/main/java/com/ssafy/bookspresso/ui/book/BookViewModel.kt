@@ -33,6 +33,10 @@ class BookViewModel : ViewModel() {
         }
     }
 
+    suspend fun getBookInfo(isbn: String) : Book {
+        return RetrofitUtil.bookService.getBook(isbn)
+    }
+
     fun rentalBook(isbn: String){
         viewModelScope.launch {
             runCatching {

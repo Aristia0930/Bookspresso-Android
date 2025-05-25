@@ -46,18 +46,21 @@
     </com.google.android.material.tabs.TabLayout>
 
     <!-- 대출/반납 화면을 위한 뷰페이저 -->
+
+    <!-- 각 화면의 내용은 개별 프래그먼트로 구성되며, 아래는 공통 레이아웃 요소 -->
+
+    <!-- NFC 아이콘 (공통) -->
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewPager"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tabLayout" />
+        app:layout_constraintTop_toBottomOf="@+id/tabLayout"
+        app:layout_constraintVertical_bias="0.0" />
 
-    <!-- 각 화면의 내용은 개별 프래그먼트로 구성되며, 아래는 공통 레이아웃 요소 -->
-
-    <!-- NFC 아이콘 (공통) -->
     <ImageView
         android:id="@+id/nfcIcon"
         android:layout_width="120dp"
@@ -177,21 +180,6 @@
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
-    <!-- 대출/반납 버튼 (상황에 따라 텍스트 변경) -->
-    <Button
-        android:id="@+id/actionButton"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="64dp"
-        android:layout_marginEnd="64dp"
-        android:layout_marginBottom="24dp"
-        android:backgroundTint="#BC8F66"
-        android:text="대출하기"
-        android:textColor="@color/white"
-        android:visibility="gone"
-        app:layout_constraintBottom_toTopOf="@+id/cancelButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
 
     <!-- 취소 버튼 -->
     <Button
@@ -213,11 +201,11 @@
         android:id="@+id/scanStatusText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
+        android:layout_marginTop="16dp"
         android:text="NFC 스캔 대기중..."
         android:textColor="#BC8F66"
         android:textSize="14sp"
-        app:layout_constraintBottom_toTopOf="@+id/actionButton"
+        app:layout_constraintTop_toBottomOf="@+id/instructionDetails"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 

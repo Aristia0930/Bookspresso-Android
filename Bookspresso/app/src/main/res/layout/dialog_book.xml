@@ -1,6 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent">
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="24dp"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="6dp">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <!-- 책 이미지 -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="150dp"
+            android:layout_height="180dp"
+            android:layout_gravity="center_horizontal"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="2dp"
+            android:backgroundTint="@color/white"
+            android:layout_marginBottom="8dp">
+
+            <ImageView
+                android:id="@+id/image_book_cover"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="fitXY"
+                android:src="@drawable/coffee1"/>
+        </com.google.android.material.card.MaterialCardView>
+        <!-- 제목 -->
+        <TextView
+            android:id="@+id/bookTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="책 제목"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="#222222"
+            android:textAlignment="center" />
+
+        <!-- 저자 -->
+        <TextView
+            android:id="@+id/bookAuthor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="저자: 홍길동"
+            android:textSize="14sp"
+            android:textColor="#555555"
+            android:textAlignment="center" />
+
+        <!-- ISBN -->
+        <TextView
+            android:id="@+id/bookIsbn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:text="ISBN: 9788900000000"
+            android:textSize="13sp"
+            android:textColor="#888888"
+            android:textAlignment="center" />
+
+        <!-- 줄거리 -->
+        <TextView
+            android:id="@+id/bookSummary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="줄거리 요약이 여기에 들어갑니다. 여러 줄의 텍스트가 들어갈 수 있습니다."
+            android:textSize="14sp"
+            android:textColor="#444444"
+            android:lineSpacingExtra="4dp" />
+
+        <!-- 대출 상태 -->
+        <TextView
+            android:id="@+id/bookStatus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="대출 가능"
+            android:textSize="14sp"
+            android:padding="8dp"
+            android:textColor="#48F04D"
+            android:gravity="center"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

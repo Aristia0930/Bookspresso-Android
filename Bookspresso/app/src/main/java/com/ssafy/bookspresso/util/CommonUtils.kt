@@ -1,6 +1,9 @@
 package com.ssafy.bookspresso.util
 
 import android.util.Log
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Observer
 import com.ssafy.bookspresso.base.ApplicationClass
 import com.ssafy.bookspresso.data.model.response.OrderResponse
 import java.text.DecimalFormat
@@ -56,5 +59,15 @@ object CommonUtils {
             order.orderCount += detail.quantity
         }
         return order
+    }
+
+    fun <T> LiveData<T>.observeOnce(lifecycleOwner: LifecycleOwner, observer: (T) -> Unit) {
+        val wrappedObserver = object : Observer<T> {
+            override fun onChanged(t: T) {
+                observer(t)
+                removeObserver(this)
+            }
+        }
+        observe(lifecycleOwner, wrappedObserver)
     }
 }
