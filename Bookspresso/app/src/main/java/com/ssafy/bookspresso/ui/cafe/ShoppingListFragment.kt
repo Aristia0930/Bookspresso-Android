@@ -2,43 +2,61 @@ package com.ssafy.bookspresso.ui.cafe
 
 import android.app.AlertDialog
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import com.ssafy.bookspresso.R
 import com.ssafy.bookspresso.base.ApplicationClass
 import com.ssafy.bookspresso.base.BaseFragment
+import com.ssafy.bookspresso.data.model.dto.KakaoReadyRequest
 import com.ssafy.bookspresso.data.model.dto.Order
 import com.ssafy.bookspresso.data.model.dto.OrderDetail
 import com.ssafy.bookspresso.databinding.FragmentShoppingListBinding
 import com.ssafy.bookspresso.ui.MainActivity
 import com.ssafy.bookspresso.ui.MainActivityViewModel
+import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
+import java.util.TimeZone
+import java.util.UUID
 
 private const val TAG = "ShoppingListF_싸피"
 const val ORDER_ID = "orderId"
+
 //장바구니 Fragment
-class ShoppingListFragment : BaseFragment<FragmentShoppingListBinding>(FragmentShoppingListBinding::bind, R.layout.fragment_shopping_list){
+class ShoppingListFragment : BaseFragment<FragmentShoppingListBinding>(
+    FragmentShoppingListBinding::bind,
+    R.layout.fragment_shopping_list
+) {
     private lateinit var shoppingListAdapter: ShoppingListAdapter
     private lateinit var mainActivity: MainActivity
-    private var isShop : Boolean = true
+    private var isShop: Boolean = true
     private var reOrderId = -1
     private var dialog: AlertDialog? = null
 
-    private val activityViewModel : MainActivityViewModel by activityViewModels()
+    private val activityViewModel: MainActivityViewModel by activityViewModels()
+    private val orderViewModel: OrderViewModel by viewModels()
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
         mainActivity = context as MainActivity
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mainActivity.hideBottomNav(true)
 
         // 재주문일때는 argument로 들어온다.
-        arguments?.let{
+        arguments?.let {
             reOrderId = it.getInt("orderId", -1)
             Log.d(TAG, "onCreate: reOrderId :  $reOrderId")
         }
@@ -52,7 +70,7 @@ class ShoppingListFragment : BaseFragment<FragmentShoppingListBinding>(FragmentS
         refreshList()
     }
 
-    private fun initAdapter(){
+    private fun initAdapter() {
         shoppingListAdapter = ShoppingListAdapter(mutableListOf())
 
 
@@ -70,34 +88,38 @@ class ShoppingListFragment : BaseFragment<FragmentShoppingListBinding>(FragmentS
         shoppingListAdapter.list = activityViewModel.shoppingList
 
 
-        var money=0;
-        var count=0;
-        for(e in shoppingListAdapter.list ){
-            money+=e.totalPrice
-            count+=e.menuCnt
+        var money = 0;
+        var count = 0;
+        for (e in shoppingListAdapter.list) {
+            money += e.totalPrice
+            count += e.menuCnt
         }
-        binding.textShoppingCount.text="총 " +count.toString()+"잔"
-        binding.textShoppingMoney.text=money.toString()+"원"
+        binding.textShoppingCount.text = "총 " + count.toString() + "잔"
+        binding.textShoppingMoney.text = money.toString() + "원"
         shoppingListAdapter.notifyDataSetChanged()
     }
 
 
-    private fun initEvent(){
+    private fun initEvent() {
         binding.btnShop.setOnClickListener {
-            binding.btnShop.background = ContextCompat.getDrawable(requireContext(), R.drawable.button_color)
-            binding.btnTakeout.background = ContextCompat.getDrawable(requireContext(), R.drawable.button_non_color)
+            binding.btnShop.background =
+                ContextCompat.getDrawable(requireContext(), R.drawable.button_color)
+            binding.btnTakeout.background =
+                ContextCompat.getDrawable(requireContext(), R.drawable.button_non_color)
             isShop = true
         }
         binding.btnTakeout.setOnClickListener {
-            binding.btnTakeout.background = ContextCompat.getDrawable(requireContext(), R.drawable.button_color)
-            binding.btnShop.background = ContextCompat.getDrawable(requireContext(), R.drawable.button_non_color)
+            binding.btnTakeout.background =
+                ContextCompat.getDrawable(requireContext(), R.drawable.button_color)
+            binding.btnShop.background =
+                ContextCompat.getDrawable(requireContext(), R.drawable.button_non_color)
             isShop = false
         }
         binding.btnOrder.setOnClickListener {
-            if(isShop) showDialogForOrderInShop()
+            if (isShop) showDialogForOrderInShop()
             else {
                 //거리가 200이상이라면
-                if(true) showDialogForOrderTakeoutOver200m()
+                if (true) showDialogForOrderTakeoutOver200m()
             }
         }
     }
@@ -107,10 +129,56 @@ class ShoppingListFragment : BaseFragment<FragmentShoppingListBinding>(FragmentS
         mainActivity.hideBottomNav(false)
     }
 
+    private var paymentTid: String = ""
+    private var table: String = ""
+    private val paymentResultLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        viewLifecycleOwner.lifecycleScope.launch {
+            val tid = paymentTid
+            val isPaySuccess = orderViewModel.doPayment(tid)
+            if (isPaySuccess) {
+                showToast("결제 성공")
+                completedOrder(table)
+            } else {
+                showToast("결제 실패")
+            }
+        }
+    }
+
     fun onNfcScanned(data: String) {
-        dialog!!.cancel()
-        showToast("$data 테이블 번호가 등록 되었습니다.")
-        completedOrder(data)
+        if (!data.contains("Table")) return
+        table = data
+        dialog?.cancel()
+        Log.d(TAG, "onNfcScanned: $data 주문 접수, 결제 전")
+        val oid = UUID.randomUUID().toString()
+        val uid = ApplicationClass.sharedPreferencesUtil.getUser().id
+        val list = activityViewModel.shoppingList
+        val item_name =
+            if (list.size == 1) "${list[0].menuName}" else "${list[0].menuName} 외 ${list.size - 1}개"
+        var money = 0;
+        var count = 0;
+        for (e in shoppingListAdapter.list) {
+            money += e.totalPrice
+            count += e.menuCnt
+        }
+        val quantity = count
+        val total_amount = money
+        val kakaoReadyRequest = KakaoReadyRequest(oid, uid, item_name, quantity, total_amount)
+        orderViewModel.requestPayment(kakaoReadyRequest)
+
+        orderViewModel.kakaoPayReadyResponse.observe(viewLifecycleOwner) {
+            paymentTid = it.tid
+            try {
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(it.next_redirect_mobile_url))
+                paymentResultLauncher.launch(intent)
+            } catch (e: Exception) {
+                // 앱 실행 실패 시 모바일 웹 URL로 대체
+                val webIntent = Intent(Intent.ACTION_VIEW, Uri.parse(it.android_app_scheme))
+                paymentResultLauncher.launch(webIntent)
+            }
+        }
+
     }
 
 
@@ -122,14 +190,17 @@ class ShoppingListFragment : BaseFragment<FragmentShoppingListBinding>(FragmentS
         )
 
         builder.setCancelable(true)
-        builder.setNegativeButton("취소"
-        ) { dialog, _ -> dialog.cancel()
+        builder.setNegativeButton(
+            "취소"
+        ) { dialog, _ ->
+            dialog.cancel()
             dialog.cancel()
             showToast("주문이 취소되었습니다.")
         }
         dialog = builder.create()
         dialog?.show()
     }
+
     private fun showDialogForOrderTakeoutOver200m() {
         val builder: AlertDialog.Builder = AlertDialog.Builder(requireContext())
         builder.setTitle("알림")
@@ -139,9 +210,6 @@ class ShoppingListFragment : BaseFragment<FragmentShoppingListBinding>(FragmentS
         builder.setCancelable(true)
         builder.setPositiveButton("확인") { _, _ ->
             completedOrder("Take Out 주문")
-            activityViewModel.clearShoppingList()
-            refreshList()
-            shoppingListAdapter.notifyDataSetChanged()
         }
         builder.setNegativeButton("취소") { dialog, _ ->
             dialog.cancel()
@@ -151,10 +219,9 @@ class ShoppingListFragment : BaseFragment<FragmentShoppingListBinding>(FragmentS
     }
 
 
+    private fun completedOrder(table: String) {
 
-    private fun completedOrder(table: String){
-
-        if(activityViewModel.shoppingList.size <= 0){
+        if (activityViewModel.shoppingList.size <= 0) {
             showToast("장바구니가 비어 있습니다.")
             return;
         }
@@ -167,28 +234,31 @@ class ShoppingListFragment : BaseFragment<FragmentShoppingListBinding>(FragmentS
 
         showToast("주문이 완료되었습니다.")
 
+        val isoFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX", Locale.KOREA)
+        isoFormat.timeZone = TimeZone.getTimeZone("Asia/Seoul")
+        val nowIsoStr = isoFormat.format(Date())
         val order = Order(
             id = 0,
             userId = userId,
             orderTable = table,
-            orderTime = "",
+            orderTime = nowIsoStr,
             completed = "N", // 초기값으로 "false" 지정 (완료 여부)
             details = ArrayList(orderDetails)
         )
 
         activityViewModel.orderShoppingList(order)
 
-
-
+        activityViewModel.clearShoppingList()
+        refreshList()
+        shoppingListAdapter.notifyDataSetChanged()
 
     }
 
 
-
     // 재주문할때는 parameter로 넘기기.
-    companion object{
+    companion object {
         @JvmStatic
-        fun newInstance(param:Int) =
+        fun newInstance(param: Int) =
             ShoppingListFragment().apply {
                 arguments = Bundle().apply {
                     putInt(ORDER_ID, param)

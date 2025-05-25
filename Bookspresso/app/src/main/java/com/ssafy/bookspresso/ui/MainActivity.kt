@@ -36,7 +36,7 @@ import com.ssafy.bookspresso.ui.my.OrderDetailFragment
 import com.ssafy.bookspresso.ui.order.MapFragment
 import com.ssafy.bookspresso.ui.order.MenuDetailFragment
 import com.ssafy.bookspresso.ui.order.OrderFragment
-import com.ssafy.bookspresso.ui.order.ShoppingListFragment
+import com.ssafy.bookspresso.ui.cafe.ShoppingListFragment
 import org.intellij.lang.annotations.Identifier
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -60,6 +60,24 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
             supportFragmentManager.findFragmentById(R.id.frame_layout_main)
 
         if (fragment is NfcFragment) {
+            intent?.let {
+                if (it.action == NfcAdapter.ACTION_NDEF_DISCOVERED) {
+
+                    val rawMsgs = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES)
+                    val msgs = rawMsgs?.map { it as NdefMessage } ?: listOf()
+                    for (msg in msgs) {
+                        for (record in msg.records) {
+                            val payload = record.payload
+                            val data = String(payload, Charsets.UTF_8).substring(3) // 첫 3바이트는 언어코드
+
+                            Log.d(TAG, "onNewIntent: $data")
+                            fragment.onNfcScanned(data)
+                        }
+                    }
+                }
+            }
+        }
+        if (fragment is ShoppingListFragment) {
             intent?.let {
                 if (it.action == NfcAdapter.ACTION_NDEF_DISCOVERED) {
 
