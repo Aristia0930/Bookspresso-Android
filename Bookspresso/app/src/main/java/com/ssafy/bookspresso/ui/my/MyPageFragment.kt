@@ -34,7 +34,7 @@ class MyPageFragment : BaseFragment<FragmentMypageBinding>(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         registerObserver()
-        getUserData()
+//        getUserData()
         initAdapter()
         initOrderData("")
         initEvent()

@@ -1,12 +1,18 @@
 package com.ssafy.bookspresso.ui.cafe
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ssafy.bookspresso.data.model.dto.KakaoPaymentOrderRequest
+import com.ssafy.bookspresso.data.model.dto.KakaoReadyRequest
 import com.ssafy.bookspresso.data.model.dto.Product
+import com.ssafy.bookspresso.data.model.response.KakaoPayReadyResponse
 import com.ssafy.bookspresso.data.remote.RetrofitUtil
 import kotlinx.coroutines.launch
+
+private const val TAG = "OrderViewModel_싸피"
 
 class OrderViewModel : ViewModel() {
 
@@ -15,6 +21,10 @@ class OrderViewModel : ViewModel() {
 
     private val _filteredProductList = MutableLiveData<List<Product>>() // 필터링된 리스트
     val filteredProductList: LiveData<List<Product>> get() = _filteredProductList
+
+    private val _kakaoPayResponse = MutableLiveData<KakaoPayReadyResponse>()
+    val kakaoPayReadyResponse: LiveData<KakaoPayReadyResponse>
+        get() = _kakaoPayResponse
 
     fun getProductList() {
         viewModelScope.launch {
@@ -34,5 +44,22 @@ class OrderViewModel : ViewModel() {
         _productList.value?.let { list ->
             _filteredProductList.value = list.filter { it.type == type }
         }
+    }
+
+    fun requestPayment(kakaoReadyRequest: KakaoReadyRequest) {
+        viewModelScope.launch {
+            runCatching {
+                RetrofitUtil.kakaoPayService.requestPayment(kakaoReadyRequest)
+            }.onSuccess {
+                _kakaoPayResponse.value = it
+                Log.d(TAG, "requestPayment: $it")
+            }.onFailure {
+                Log.d(TAG, "requestPayment: 실패 ${it.cause}")
+            }
+        }
+    }
+
+    suspend fun doPayment(tid: String): Boolean {
+        return RetrofitUtil.kakaoPayService.doPayment(KakaoPaymentOrderRequest(tid))
     }
 }

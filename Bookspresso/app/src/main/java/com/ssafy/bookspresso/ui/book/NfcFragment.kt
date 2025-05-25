@@ -71,6 +71,7 @@ class NfcFragment : BaseFragment<FragmentNfcBinding>(
     }
 
     fun onNfcScanned(data: String) {
+        if(data.contains("Table")) return
         Log.d(TAG, "onNfcScanned: $selectedMode")
         viewLifecycleOwner.lifecycleScope.launch {
             val book = viewModel.getBookInfo(data)
