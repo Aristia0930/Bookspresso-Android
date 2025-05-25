@@ -22,6 +22,7 @@ class MyPageFragment : BaseFragment<FragmentMypageBinding>(
     R.layout.fragment_mypage
 ) {
     private var orderAdapter: OrderListAdapter = OrderListAdapter(emptyList())
+    private var bookListAdapterAdapter: BookListAdapter = BookListAdapter(emptyList())
     private lateinit var mainActivity: MainActivity
 
     private val activityViewModel: MainActivityViewModel by activityViewModels()
@@ -34,7 +35,7 @@ class MyPageFragment : BaseFragment<FragmentMypageBinding>(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         registerObserver()
-//        getUserData()
+        getUserData()
         initAdapter()
         initOrderData("")
         initEvent()
@@ -56,6 +57,11 @@ class MyPageFragment : BaseFragment<FragmentMypageBinding>(
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
             adapter = orderAdapter
         }
+
+        binding.recyclerViewMyBook.apply {
+            layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+            adapter = bookListAdapterAdapter
+        }
     }
 
     private fun initEvent() {
@@ -67,7 +73,7 @@ class MyPageFragment : BaseFragment<FragmentMypageBinding>(
     private fun getUserData() {
         val user = ApplicationClass.sharedPreferencesUtil.getUser()
         binding.textUserName.text = user.name
-        activityViewModel.getUserInfo(user.id)
+//        activityViewModel.getUserInfo(user.id)
 
     }
 
@@ -118,9 +124,9 @@ class MyPageFragment : BaseFragment<FragmentMypageBinding>(
 
 
     fun registerObserver() {
-        activityViewModel.info.observe(viewLifecycleOwner) {
-            val grade = it.grade
-            val user = it.user
+//        activityViewModel.info.observe(viewLifecycleOwner) {
+//            val grade = it.grade
+//            val user = it.user
 
 //            context?.let { it1 ->
 //                Glide.with(it1)
@@ -135,7 +141,7 @@ class MyPageFragment : BaseFragment<FragmentMypageBinding>(
 //            binding.textUserNextLevel.text = "${grade.to}/${grade.stepMax}"
 //            binding.textLevelRest.text = "다음 레벨까지 ${grade.stepMax - grade.to}잔 남았습니다."
 
-        }
+//        }
     }
 
 }
