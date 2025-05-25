@@ -2,15 +2,18 @@ package com.ssafy.bookspresso.ui
 
 
 import android.os.Bundle
+import androidx.activity.viewModels
 import com.ssafy.bookspresso.R
 import com.ssafy.bookspresso.base.BaseActivity
 import com.ssafy.bookspresso.databinding.ActivityManagerBinding
-import com.ssafy.bookspresso.ui.home.HomeFragment
 import com.ssafy.bookspresso.ui.manager.ManagerFragment
+import com.ssafy.bookspresso.ui.manager.ManagerViewModel
 
 class ManagerActivity : BaseActivity<ActivityManagerBinding>(ActivityManagerBinding::inflate) {
 
-//    private val mainActivityViewModel: MainActivityViewModel by viewModels()
+    private val mainActivityViewModel: ManagerViewModel by viewModels()
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -5,6 +5,7 @@ import com.ssafy.bookspresso.data.model.dto.Order
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.PUT
 import retrofit2.http.Path
 import retrofit2.http.Query
 
@@ -24,4 +25,13 @@ interface OrderService {
 
     @GET("rest/order/byUserIn6Months")
     suspend fun getLast6MonthOrder(@Query("id") id: String): List<OrderResponse>
+
+    @GET("rest/manager")
+    suspend fun getListOrder(): List<OrderResponse>
+
+    @PUT("rest/manager/order/cancel/{orderId}")
+    suspend fun cancel(@Path("orderId") orderId: Int): OrderResponse
+
+    @PUT("rest/manager/order/accecpt/{orderId}")
+    suspend fun accept(@Path("orderId") orderId: Int): OrderResponse
 }

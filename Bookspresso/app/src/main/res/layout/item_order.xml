@@ -39,6 +39,14 @@
                     android:textStyle="bold"
                     android:textColor="#2C3E50"
                     />
+                <TextView
+                    android:id="@+id/tv_user_id"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="kkk님이 주문하셨스빈다"
+                    android:textSize="12sp"
+                    android:textColor="#448C8D"
+                    android:layout_marginTop="2dp" />
 
                 <TextView
                     android:id="@+id/tv_order_time"

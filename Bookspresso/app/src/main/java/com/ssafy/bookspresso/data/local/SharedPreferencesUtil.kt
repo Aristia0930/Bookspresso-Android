@@ -51,6 +51,8 @@ class SharedPreferencesUtil (context: Context) {
         preferences.edit().remove(COOKIES_KEY_NAME).apply()
     }
 
+
+
     fun addNotice(info: String) {
         val list = getNotice()
 
@@ -95,6 +97,12 @@ class SharedPreferencesUtil (context: Context) {
         val editor = preferences.edit()
         editor.putString(key, value)
         editor.apply()
+    }
+
+    fun remove(s: String) {
+        val editor = preferences.edit()
+        editor.remove(s)
+
     }
 
 }
