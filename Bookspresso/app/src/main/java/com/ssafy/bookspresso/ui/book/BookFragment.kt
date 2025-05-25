@@ -45,9 +45,9 @@ class BookFragment : BaseFragment<FragmentBookBinding>(FragmentBookBinding::bind
     }
 
     private fun initEvent(){
-        binding.floatingBtn.setOnClickListener{
-            //장바구니 이동
-            mainActivity.openFragment(1)
+        binding.nfcBtn.setOnClickListener{
+            // 책 대출 nfc 태그 화면 이동
+            mainActivity.openFragment(6)
         }
 
     }

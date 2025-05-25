@@ -28,6 +28,7 @@ import com.ssafy.bookspresso.base.BaseActivity
 import com.ssafy.bookspresso.databinding.ActivityMainBinding
 import com.ssafy.bookspresso.ui.book.BookDetailFragment
 import com.ssafy.bookspresso.ui.book.BookFragment
+import com.ssafy.bookspresso.ui.book.NfcFragment
 import com.ssafy.bookspresso.ui.cafe.CafeFragment
 import com.ssafy.bookspresso.ui.home.HomeFragment
 import com.ssafy.bookspresso.ui.my.MyPageFragment
@@ -58,7 +59,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         val fragment =
             supportFragmentManager.findFragmentById(R.id.frame_layout_main)
 
-        if (fragment is ShoppingListFragment) {
+        if (fragment is NfcFragment) {
             intent?.let {
                 if (it.action == NfcAdapter.ACTION_NDEF_DISCOVERED) {
 
@@ -72,9 +73,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                             Log.d(TAG, "onNewIntent: $data")
                             fragment.onNfcScanned(data)
                         }
-                        supportFragmentManager.beginTransaction()
-                            .replace(R.id.frame_layout_main, OrderFragment())
-                            .commit()
                     }
                 }
             }
@@ -203,6 +201,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
             5 -> {
                 logout()
             }
+            //nfc 책 대출
+            6 -> transaction.replace(R.id.frame_layout_main, NfcFragment())
+                .addToBackStack(null)
         }
         transaction.commit()
     }
