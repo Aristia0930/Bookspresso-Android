@@ -2,6 +2,7 @@ package com.ssafy.bookspresso.data.remote
 
 import com.ssafy.bookspresso.data.model.dto.Book
 import com.ssafy.bookspresso.data.model.dto.BookRental
+import com.ssafy.bookspresso.data.model.dto.BookRentalInfo
 import com.ssafy.bookspresso.data.model.dto.Comment
 import com.ssafy.bookspresso.data.model.dto.Product
 import com.ssafy.bookspresso.data.model.response.ProductWithCommentResponse
@@ -19,8 +20,8 @@ interface BookService {
     @GET("rest/book/{isbn}")
     suspend fun getBook(@Path("isbn") isbn: String): Book
 
-    @GET("rest/book/rental/{userId}")
-    suspend fun getBookRentalList(@Path("userId") uid: String): List<BookRental>
+    @GET("rest/book/rental/list/{userId}")
+    suspend fun getBookRentalList(@Path("userId") uid: String): List<BookRentalInfo>
 
     @POST("rest/book/rental")
     suspend fun rentalBook(@Body bookRental: BookRental): Boolean

@@ -11,10 +11,15 @@ import com.bumptech.glide.Glide
 import com.ssafy.bookspresso.R
 import com.ssafy.bookspresso.base.ApplicationClass
 import com.ssafy.bookspresso.data.model.dto.BookRental
+import com.ssafy.bookspresso.data.model.dto.BookRentalInfo
 import com.ssafy.bookspresso.data.model.response.OrderResponse
 import com.ssafy.bookspresso.util.CommonUtils
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
+import java.util.concurrent.TimeUnit
 
-class BookListAdapter(var list:List<BookRental>) :
+class BookListAdapter(var list:List<BookRentalInfo>) :
     RecyclerView.Adapter<BookListAdapter.BookHolder>(){
 
     inner class BookHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
@@ -23,27 +28,36 @@ class BookListAdapter(var list:List<BookRental>) :
         val text_author = itemView.findViewById<TextView>(R.id.text_author)
         val text_status = itemView.findViewById<TextView>(R.id.text_status)
 
-        fun bindInfo(data: BookRental){
+        fun bindInfo(data: BookRentalInfo){
 
 
-//            Glide.with(itemView)
-//                .load("${ApplicationClass.BOOK_IMGS_URL}${data.i}")
-//                .into(menuImage)
-//
-//            if(data.orderCount > 1){
-//                textMenuNames.text = "${data.details[0].productName} 외 ${data.orderCount -1}건"  //외 x건
-//            }else{
-//                textMenuNames.text = data.details[0].productName
-//            }
-//
-//            textMenuPrice.text = CommonUtils.makeComma(data.totalPrice)
-//            textMenuDate.text = CommonUtils.dateformatYMDHM(data.orderDate)
-//            textCompleted.text = CommonUtils.isOrderCompleted(data)
-//            //클릭연결
-//            itemView.setOnClickListener{
-//                Log.d(TAG, "bindInfo: ${data.orderId}")
-//                itemClickListner.onClick(it, layoutPosition, data.orderId)
-//            }
+            Glide.with(itemView)
+                .load("${ApplicationClass.BOOK_IMGS_URL}${data.book.img}")
+                .into(bookCoverImage)
+
+            text_title.text = data.book.title
+            text_author.text = data.book.author
+            val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+            val today = Date()
+            val due = dateFormat.parse(data.dueDate)
+
+            val text = when (data.status) {
+                "available" -> "대출 가능"
+                "borrowed" -> {
+                    val diff = due.time - today.time
+                    val daysLeft = TimeUnit.MILLISECONDS.toDays(diff)
+
+                    if (daysLeft >= 0) {
+                        "대출 중 (반납까지 ${daysLeft}일 남음)"
+                    } else {
+                        "대출 중 (반납 기한 초과 ${-daysLeft}일)"
+                    }
+                }
+                "reserved" -> "예약됨"
+                else -> "상태 불명"
+            }
+            text_status.text = text
+
         }
     }
 

@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ssafy.bookspresso.data.model.dto.BookRentalInfo
 import com.ssafy.bookspresso.data.model.dto.Order
 import com.ssafy.bookspresso.data.model.dto.ShoppingCart
 import com.ssafy.bookspresso.data.model.response.OrderResponse
@@ -72,6 +73,11 @@ class MainActivityViewModel : ViewModel() {
         }
     }
 
+    // 대출 내역
+    private val _booklist = MutableLiveData<List<BookRentalInfo>>()
+    val booklist: LiveData<List<BookRentalInfo>>
+        get() = _booklist
+
     private fun checkDuplication(itemName: String): Int {
         var position = -1
         shoppingList.forEachIndexed { index, item ->
@@ -79,6 +85,19 @@ class MainActivityViewModel : ViewModel() {
                 position = index
         }
         return position
+    }
+
+    fun getBookRentalList(uid: String) {
+        viewModelScope.launch {
+            runCatching {
+                RetrofitUtil.bookService.getBookRentalList(uid)
+            }.onSuccess {
+                _booklist.value = it
+                Log.d(TAG, "getBookRentalList: 성공")
+            }.onFailure {
+                Log.d(TAG, "getBookRentalList: 실패 ${it.cause}")
+            }
+        }
     }
 
     //주문

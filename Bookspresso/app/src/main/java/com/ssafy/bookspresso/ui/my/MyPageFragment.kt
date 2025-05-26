@@ -124,24 +124,12 @@ class MyPageFragment : BaseFragment<FragmentMypageBinding>(
 
 
     fun registerObserver() {
-//        activityViewModel.info.observe(viewLifecycleOwner) {
-//            val grade = it.grade
-//            val user = it.user
-
-//            context?.let { it1 ->
-//                Glide.with(it1)
-//                    .load("${ApplicationClass.GRADE_URL}${grade.img}")
-//                    .into(binding.imageLevel)
-//            }
-//
-//            binding.textUserLevel.text = "${grade.title} ${grade.step}단계"
-//            binding.proBarUserLevel.max = grade.stepMax
-//            binding.proBarUserLevel.progress = grade.to
-//
-//            binding.textUserNextLevel.text = "${grade.to}/${grade.stepMax}"
-//            binding.textLevelRest.text = "다음 레벨까지 ${grade.stepMax - grade.to}잔 남았습니다."
-
-//        }
+        activityViewModel.booklist.observe(viewLifecycleOwner) {
+            bookListAdapterAdapter.list = it
+            bookListAdapterAdapter.notifyDataSetChanged()
+        }
+        val uid = ApplicationClass.sharedPreferencesUtil.getUser().id
+        activityViewModel.getBookRentalList(uid)
     }
 
 }
