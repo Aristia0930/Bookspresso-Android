@@ -7,6 +7,9 @@
     tools:context=".ui.MainActivity">
 
 
+
+
+
     <FrameLayout
         android:id="@+id/frame_layout_main"
         android:layout_above="@id/bottom_navigation"

@@ -83,4 +83,7 @@ dependencies {
 
     //framework ktx dependency 추가
     implementation ("androidx.fragment:fragment-ktx:1.8.6")
+
+    //로티터 로딩화면
+    implementation ("com.airbnb.android:lottie:6.3.0")
 }

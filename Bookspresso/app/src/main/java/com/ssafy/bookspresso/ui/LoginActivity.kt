@@ -3,8 +3,10 @@ package com.ssafy.bookspresso.ui
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
+import com.airbnb.lottie.LottieAnimationView
 import com.ssafy.bookspresso.R
 import com.ssafy.bookspresso.base.ApplicationClass
 import com.ssafy.bookspresso.base.BaseActivity
@@ -13,6 +15,7 @@ import com.ssafy.bookspresso.databinding.ActivityLoginBinding
 import com.ssafy.bookspresso.ui.login.JoinFragment
 import com.ssafy.bookspresso.ui.login.LoginFragment
 import com.ssafy.bookspresso.ui.login.LoginFragmentViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 private const val TAG = "LoginActivity_싸피"
@@ -37,22 +40,32 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::i
 //                .commit()
 //        }
 
+        if(user.id!="") {
 
+            lifecycleScope.launch {
+                val lottieView = binding.lottieLoading
+                lottieView.visibility = View.VISIBLE
+                lottieView.playAnimation()
 
-        lifecycleScope.launch {
-            ApplicationClass.sharedPreferencesUtil.deleteUser()
-            val isLoggedIn = loginFragmentViewModel.jwtIsUsed()
-            val user = ApplicationClass.sharedPreferencesUtil.getUser()
-
-            if (isLoggedIn && user.id != "") {
-                openFragment(1)
-            } else {
-                supportFragmentManager.beginTransaction()
-                    .replace(R.id.frame_layout_login, LoginFragment())
-                    .commit()
+                ApplicationClass.sharedPreferencesUtil.deleteUser()
+                val isLoggedIn = loginFragmentViewModel.jwtIsUsed()
+                user = ApplicationClass.sharedPreferencesUtil.getUser()
+                delay(2000L)
+                lottieView.cancelAnimation()
+                lottieView.visibility = View.GONE
+                if (isLoggedIn && user.id != "") {
+                    openFragment(1)
+                } else {
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.frame_layout_login, LoginFragment())
+                        .commit()
+                }
             }
+        }else{
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.frame_layout_login, LoginFragment())
+                .commit()
         }
-
     }
 
     fun openFragment(int: Int){
