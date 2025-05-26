@@ -6,6 +6,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.ssafy.bookspresso.data.local.SharedPreferencesUtil
+import com.ssafy.bookspresso.data.local.TokenPreferencesUtil
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -27,6 +28,7 @@ class ApplicationClass : Application() {
         const val GRADE_URL = "${SERVER_URL}imgs/grade/"
 
         lateinit var sharedPreferencesUtil: SharedPreferencesUtil
+        lateinit var tokenPreferencesUtil: TokenPreferencesUtil
         lateinit var retrofit: Retrofit
 
         // 모든 퍼미션 관련 배열
@@ -49,7 +51,7 @@ class ApplicationClass : Application() {
 
         //shared preference 초기화
         sharedPreferencesUtil = SharedPreferencesUtil(applicationContext)
-
+        tokenPreferencesUtil=TokenPreferencesUtil(applicationContext)
         // 레트로핏 인스턴스를 생성하고, 레트로핏에 각종 설정값들을 지정해줍니다.
         // 연결 타임아웃시간은 5초로 지정이 되어있고, HttpLoggingInterceptor를 붙여서 어떤 요청이 나가고 들어오는지를 보여줍니다.
         val okHttpClient = OkHttpClient.Builder()

@@ -31,10 +31,15 @@ class LoginFragmentViewModel : ViewModel() {
                 val response = RetrofitUtil.userService.login(User(loginId, loginPass))
                 val token = response.headers()["Authorization"]
 
-                ApplicationClass.sharedPreferencesUtil.addString("Authorization", "$token")
+                if (token != null) {
+                    ApplicationClass.tokenPreferencesUtil.saveToken(token)
+                }
+
+
             }.onSuccess {
                 runCatching {
-                    RetrofitUtil.userService.info(User(loginId, loginPass))
+//                    RetrofitUtil.userService.info(User(loginId, loginPass))
+                    RetrofitUtil.userService.jwtInfo()
                 }.onSuccess {
                     _user.value = it
                 }.onFailure {
@@ -83,5 +88,21 @@ class LoginFragmentViewModel : ViewModel() {
             }
         }
     }
+
+    //재 로그인
+    suspend fun jwtIsUsed(): Boolean {
+        return runCatching {
+            val user = RetrofitUtil.userService.jwtInfo()
+            _user.value = user
+            ApplicationClass.sharedPreferencesUtil.addUser(user)
+            true
+        }.getOrElse {
+            Log.d(TAG, "jwtIsUsed: ${it.cause}")
+            _user.value = User()
+            ApplicationClass.sharedPreferencesUtil.deleteUser()
+            false
+        }
+    }
+
 
 }

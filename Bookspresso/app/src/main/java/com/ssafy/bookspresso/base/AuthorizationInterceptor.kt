@@ -13,7 +13,7 @@ class AuthorizationInterceptor : Interceptor {
     @Throws(IOException::class)
     override fun intercept(chain: Interceptor.Chain): Response {
         val builder: Request.Builder = chain.request().newBuilder()
-        val jwtToken: String? = ApplicationClass.sharedPreferencesUtil.getString("Authorization")
+        val jwtToken: String? = ApplicationClass.tokenPreferencesUtil.getToken()
 
         Log.d(TAG, "intercept: ${jwtToken}")
         if (!jwtToken.isNullOrEmpty()) {
