@@ -44,7 +44,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(
     private fun initUserData(){
         val user = ApplicationClass.sharedPreferencesUtil.getUser()
         id = user.id
-        binding.textUserName.text = "${user.name} 님"
+        binding.textUserName.text = "${user.name} 님, 환영합니다."
     }
 
 
