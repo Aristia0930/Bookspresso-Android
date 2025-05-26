@@ -72,7 +72,7 @@ class MyPageFragment : BaseFragment<FragmentMypageBinding>(
 
     private fun getUserData() {
         val user = ApplicationClass.sharedPreferencesUtil.getUser()
-        binding.textUserName.text = user.name
+        binding.textUserName.text = "${user.name}님"
 //        activityViewModel.getUserInfo(user.id)
 
     }

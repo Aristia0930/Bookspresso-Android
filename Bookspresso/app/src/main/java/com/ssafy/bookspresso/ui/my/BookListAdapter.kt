@@ -1,5 +1,6 @@
 package com.ssafy.bookspresso.ui.my
 
+import android.graphics.Color
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -42,21 +43,27 @@ class BookListAdapter(var list:List<BookRentalInfo>) :
             val due = dateFormat.parse(data.dueDate)
 
             val text = when (data.status) {
-                "available" -> "대출 가능"
-                "borrowed" -> {
+                "returned" -> "반납 완료"  // 반납된 상태이므로 대출 가능
+                "rented" -> {
                     val diff = due.time - today.time
                     val daysLeft = TimeUnit.MILLISECONDS.toDays(diff)
-
-                    if (daysLeft >= 0) {
-                        "대출 중 (반납까지 ${daysLeft}일 남음)"
-                    } else {
-                        "대출 중 (반납 기한 초과 ${-daysLeft}일)"
-                    }
+                    "대출 중 (D-${daysLeft})"
                 }
-                "reserved" -> "예약됨"
+                "overdue" -> {
+                    val diff = today.time - due.time  // 초과된 일수 계산
+                    val daysOverdue = TimeUnit.MILLISECONDS.toDays(diff)
+                    "연체됨 (D+${daysOverdue})"
+                }
                 else -> "상태 불명"
             }
             text_status.text = text
+
+            when (data.status) {
+                "returned" -> text_status.setTextColor(Color.parseColor("#4CAF50")) // 초록색
+                "rented" -> text_status.setTextColor(Color.parseColor("#2196F3")) // 파란색
+                "overdue" -> text_status.setTextColor(Color.parseColor("#F44336")) // 빨간색
+                else -> text_status.setTextColor(Color.parseColor("#757575")) // 회색
+            }
 
         }
     }
