@@ -2,30 +2,57 @@ package com.ssafy.bookspresso.ui
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
+import androidx.activity.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.ssafy.bookspresso.R
 import com.ssafy.bookspresso.base.ApplicationClass
 import com.ssafy.bookspresso.base.BaseActivity
+import com.ssafy.bookspresso.data.local.SharedPreferencesUtil
 import com.ssafy.bookspresso.databinding.ActivityLoginBinding
 import com.ssafy.bookspresso.ui.login.JoinFragment
 import com.ssafy.bookspresso.ui.login.LoginFragment
+import com.ssafy.bookspresso.ui.login.LoginFragmentViewModel
+import kotlinx.coroutines.launch
 
+private const val TAG = "LoginActivity_싸피"
 class LoginActivity : BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::inflate) {
 
+    private val loginFragmentViewModel: LoginFragmentViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+
+
         //로그인 된 상태인지 확인
-        val user = ApplicationClass.sharedPreferencesUtil.getUser()
+        var user = ApplicationClass.sharedPreferencesUtil.getUser()
 
         //로그인 상태 확인. id가 있다면 로그인 된 상태
-        if (user.id != ""){
-            openFragment(1)
-        } else {
-            // 가장 첫 화면은 홈 화면의 Fragment로 지정
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.frame_layout_login, LoginFragment())
-                .commit()
+//        if (user.id != ""){
+//            openFragment(1)
+//        } else {
+//            // 가장 첫 화면은 홈 화면의 Fragment로 지정
+//            supportFragmentManager.beginTransaction()
+//                .replace(R.id.frame_layout_login, LoginFragment())
+//                .commit()
+//        }
+
+
+
+        lifecycleScope.launch {
+            ApplicationClass.sharedPreferencesUtil.deleteUser()
+            val isLoggedIn = loginFragmentViewModel.jwtIsUsed()
+            val user = ApplicationClass.sharedPreferencesUtil.getUser()
+
+            if (isLoggedIn && user.id != "") {
+                openFragment(1)
+            } else {
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.frame_layout_login, LoginFragment())
+                    .commit()
+            }
         }
+
     }
 
     fun openFragment(int: Int){

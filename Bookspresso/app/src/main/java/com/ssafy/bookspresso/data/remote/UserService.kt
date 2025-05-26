@@ -27,4 +27,7 @@ interface UserService {
 
     @POST("rest/user/info")
     suspend fun info(@Body body: User): User
+
+    @POST("rest/user/info/jwt")
+    suspend fun jwtInfo(): User
 }
