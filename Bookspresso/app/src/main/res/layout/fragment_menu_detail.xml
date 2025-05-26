@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#DCDCDC">
+    android:background="#F5E9DA">
 
     <!-- 상단 이미지 -->
 
@@ -65,12 +65,13 @@
 
                 <ImageButton
                     android:id="@+id/btnMinusCount"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
                     android:src="@drawable/remove_24px"
+                    android:background="@drawable/round_button_background"
                     android:foregroundTint="@color/black"
-                    android:backgroundTint="@color/white"
-                    android:elevation="10dp"
+                    android:elevation="5dp"
+                    android:layout_margin="8dp"
                     android:contentDescription="minus" />
 
                 <TextView
@@ -83,12 +84,14 @@
 
                 <ImageButton
                     android:id="@+id/btnAddCount"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
                     android:src="@drawable/add_24px"
+                    android:background="@drawable/round_button_background"
                     android:foregroundTint="@color/black"
-                    android:backgroundTint="@color/white"
-                    android:elevation="10dp"
+                    android:elevation="5dp"
+
+                    android:layout_margin="8dp"
                     android:contentDescription="add" />
             </LinearLayout>
         </LinearLayout>

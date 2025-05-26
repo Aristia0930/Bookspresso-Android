@@ -1,8 +1,15 @@
 package com.ssafy.bookspresso.ui.cafe
 
 import android.content.Context
+import android.graphics.Color
+import android.media.Image
 import android.os.Bundle
 import android.view.View
+import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.TextView
+import androidx.core.content.ContextCompat
+import androidx.core.view.setPadding
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.distinctUntilChanged
@@ -47,11 +54,39 @@ class CafeFragment : BaseFragment<FragmentCafeBinding>(FragmentCafeBinding::bind
         initEvent()
     }
 
-    private fun initEvent(){
+    private fun initData() {
+        val tabLayout = binding.tabLayout
 
+        // 음료 탭 생성
+        val drinkTab = tabLayout.newTab()
+        val drinkTabView = layoutInflater.inflate(R.layout.tab_item_drink, null)
+        drinkTab.customView = drinkTabView
+        tabLayout.addTab(drinkTab)
+
+        // 디저트 탭 생성
+        val dessertTab = tabLayout.newTab()
+        val dessertTabView = layoutInflater.inflate(R.layout.tab_item_dessert, null)
+        dessertTab.customView = dessertTabView
+        tabLayout.addTab(dessertTab)
+
+        tabLayout.selectTab(drinkTab)
+        applySelectedTabStyle(drinkTab)
+        removeSelectedTabStyle(dessertTab)
+        orderViewModel.filterProductList("drink")
+
+        orderViewModel.filteredProductList.distinctUntilChanged().observe(viewLifecycleOwner) {
+            menuAdapter.productList = it
+            menuAdapter.notifyDataSetChanged()
+        }
+        orderViewModel.getProductList()
+    }
+
+    private fun initEvent() {
         binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-            override fun onTabSelected(tab: TabLayout.Tab?) {
-                val selectedType = when (tab?.position) {
+            override fun onTabSelected(tab: TabLayout.Tab) {
+                applySelectedTabStyle(tab)
+
+                val selectedType = when (tab.position) {
                     0 -> "drink"
                     1 -> "dessert"
                     else -> "drink"
@@ -59,26 +94,37 @@ class CafeFragment : BaseFragment<FragmentCafeBinding>(FragmentCafeBinding::bind
                 orderViewModel.filterProductList(selectedType)
             }
 
-            override fun onTabUnselected(tab: TabLayout.Tab?) {}
-            override fun onTabReselected(tab: TabLayout.Tab?) {}
+            override fun onTabUnselected(tab: TabLayout.Tab) {
+                removeSelectedTabStyle(tab)
+            }
+
+            override fun onTabReselected(tab: TabLayout.Tab) {}
         })
 
-        binding.floatingBtn.setOnClickListener{
-            //장바구니 이동
+        binding.floatingBtn.setOnClickListener {
             mainActivity.openFragment(1)
         }
-
     }
 
-    private fun initData(){
-        // 상품목록 조회.
-
-        orderViewModel.filteredProductList.distinctUntilChanged().observe(viewLifecycleOwner) {
-            menuAdapter.productList = it
-            menuAdapter.notifyDataSetChanged()
-        }
-        orderViewModel.getProductList()
-
-
+    private fun applySelectedTabStyle(tab: TabLayout.Tab) {
+        val customView = tab.customView ?: return
+        val tabItem = customView.findViewById<LinearLayout>(R.id.tab_item)
+        val textView = customView.findViewById<TextView>(R.id.tab_text)
+        val iconView = customView.findViewById<ImageView>(R.id.tab_icon)
+        tabItem.setPadding(0, 16, 0, 16)
+        tabItem.setBackgroundResource(R.drawable.tab_selected_background)
+        textView.setTextColor(Color.WHITE)
+        iconView.setColorFilter(Color.WHITE)
     }
+
+    private fun removeSelectedTabStyle(tab: TabLayout.Tab) {
+        val customView = tab.customView ?: return
+        val tabItem = customView.findViewById<LinearLayout>(R.id.tab_item)
+        val textView = customView.findViewById<TextView>(R.id.tab_text)
+        val iconView = customView.findViewById<ImageView>(R.id.tab_icon)
+        tabItem.background = null
+        textView.setTextColor(Color.parseColor("#BC8F66"))
+        iconView.setColorFilter(Color.parseColor("#BC8F66"))
+    }
+
 }
