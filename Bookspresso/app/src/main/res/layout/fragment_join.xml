@@ -1,88 +1,123 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#FFFDF8"
+    android:padding="24dp">
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_gravity="center"
-        android:gravity="center">
+        android:gravity="center_horizontal">
 
+        <!-- 로고 -->
         <ImageView
-            android:layout_width="200dp"
-            android:layout_height="200dp"
-            android:src="@drawable/logo"/>
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:src="@drawable/logo"
+            android:layout_marginTop="48dp"
+            android:layout_marginBottom="12dp"
+            android:contentDescription="Bookspresso 로고" />
+
+        <!-- 타이틀 -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Join"
-            style="@style/Text.Title"
-            android:textSize="50dp"
-            android:layout_marginBottom="20dp"/>
-        <LinearLayout
+            android:text="회원가입"
+            android:textSize="26sp"
+            android:textStyle="bold"
+            android:textColor="#3E2723"
+            android:fontFamily="@font/roboto_italic_variablefont_wdth_wght"
+            android:layout_marginBottom="32dp" />
+
+        <!-- 아이디 -->
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
-            android:layout_marginHorizontal="50dp"
-            android:orientation="horizontal">
+            android:layout_marginBottom="8dp"
+            android:hint="아이디">
 
-            <EditText
+            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/editTextJoinID"
-                android:background="@drawable/textview_regular"
-                android:layout_width="20dp"
-                android:layout_weight="1"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                style="@style/Text.Regular"
-                android:hint="아이디를 입력하세요." />
+                android:fontFamily="@font/roboto_italic_variablefont_wdth_wght"
+                android:inputType="text" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-            <ImageButton
-                android:id="@+id/btnConfirm"
-                android:layout_width="50dp"
-                android:layout_height="40dp"
-                android:background="@drawable/button_regular"
-                android:scaleType="fitCenter"
-                app:backgroundTint="@null"
-                android:layout_marginLeft="10dp"
-                android:src="@drawable/check"
-                android:padding="3dp"/>
-
-
-        </LinearLayout>
-
-        <EditText
-            android:background="@drawable/textview_regular"
-            android:id="@+id/editTextJoinPW"
+        <TextView
+            android:id="@+id/textIDStatus"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="50dp"
-            android:layout_marginBottom="20dp"
-            style="@style/Text.Regular"
-            android:hint="비밀번호를 입력하세요." />
+            android:text=""
+            android:textColor="#9E9E9E"
+            android:textSize="13sp"
+            android:visibility="invisible"
+            android:fontFamily="@font/roboto_italic_variablefont_wdth_wght" />
 
-        <EditText
-            android:background="@drawable/textview_regular"
-            android:id="@+id/editTextJoinName"
+        <!-- 비밀번호 -->
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="50dp"
-            android:layout_marginBottom="20dp"
-            style="@style/Text.Regular"
-            android:hint="별명을 입력하세요."/>
+            android:layout_marginBottom="16dp"
+            android:hint="비밀번호">
 
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editTextJoinPW"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword"
+                android:fontFamily="@font/roboto_italic_variablefont_wdth_wght" />
+        </com.google.android.material.textfield.TextInputLayout>
 
+        <!-- 별명 -->
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            android:hint="별명">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editTextJoinName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_italic_variablefont_wdth_wght" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- 가입 버튼 -->
         <Button
             android:id="@+id/btnJoin"
-            app:backgroundTint = "@null"
-            android:background="@drawable/button_regular"
-            android:layout_width="140dp"
-            android:layout_height="wrap_content"
-            android:text="JOIN"/>
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:text="가입하기"
+            android:textAllCaps="false"
+            android:textColor="#FFFFFF"
+            android:backgroundTint="#3E2723"
+            android:layout_marginBottom="32dp"
+            android:background="@drawable/card_background" />
 
+        <!-- 구분선 -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="또는 SNS로 간편 가입"
+            android:textColor="#9E9E9E"
+            android:layout_marginBottom="16dp"
+            android:textSize="14sp" />
+
+        <!-- SNS 버튼 (예시: 카카오) -->
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:src="@drawable/kakao_login_medium_wide"/>
+
+        <!-- 다른 SNS도 필요 시 추가 가능 -->
 
     </LinearLayout>
-
 </ScrollView>
