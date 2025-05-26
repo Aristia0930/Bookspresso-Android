@@ -11,7 +11,7 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="#BC8F66"
+        android:background="#D7B282"
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
@@ -29,9 +29,10 @@
         android:id="@+id/tabLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/white"
         app:layout_constraintTop_toBottomOf="@+id/toolbar"
-        app:tabIndicatorColor="#BC8F66"
-        app:tabSelectedTextColor="#BC8F66"
+        app:tabIndicatorColor="#D7B282"
+        app:tabSelectedTextColor="#D7B282"
         app:tabTextColor="#666666">
 
         <com.google.android.material.tabs.TabItem

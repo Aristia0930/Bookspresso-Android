@@ -49,6 +49,9 @@ class BookDetailFragment : BaseFragment<FragmentBookDetailBinding>(
         registerObserver()
         viewModel.getBookInfo()
 
+        binding.toolbar.setNavigationOnClickListener {
+            requireActivity().onBackPressedDispatcher.onBackPressed()
+        }
     }
 
     private fun registerObserver() {
@@ -67,9 +70,9 @@ class BookDetailFragment : BaseFragment<FragmentBookDetailBinding>(
             .load("${ApplicationClass.BOOK_IMGS_URL}${book.img}")
             .into(binding.imageBookCover)
 
-        binding.textTitle.text = "제목 : ${book.title}"
-        binding.textAuthor.text = "저자 : ${book.author}"
-        binding.textIsbn.text = "ISBN : ${book.isbn}"
+        binding.textTitle.text = book.title
+        binding.textAuthor.text = book.author
+        binding.textIsbn.text = book.isbn
         binding.textStatus.text = formatStatus(book.status)
         binding.textSummary.text = book.summary
 

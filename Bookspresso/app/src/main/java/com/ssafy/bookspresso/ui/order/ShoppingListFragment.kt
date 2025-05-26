@@ -88,16 +88,16 @@ class ShoppingListFragment : BaseFragment<FragmentShoppingListBinding>(FragmentS
 
 
     private fun initEvent(){
-        binding.btnShop.setOnClickListener {
-            binding.btnShop.background = ContextCompat.getDrawable(requireContext(), R.drawable.button_color)
-            binding.btnTakeout.background = ContextCompat.getDrawable(requireContext(), R.drawable.button_non_color)
-            isShop = true
-        }
-        binding.btnTakeout.setOnClickListener {
-            binding.btnTakeout.background = ContextCompat.getDrawable(requireContext(), R.drawable.button_color)
-            binding.btnShop.background = ContextCompat.getDrawable(requireContext(), R.drawable.button_non_color)
-            isShop = false
-        }
+//        binding.btnShop.setOnClickListener {
+//            binding.btnShop.background = ContextCompat.getDrawable(requireContext(), R.drawable.button_color)
+//            binding.btnTakeout.background = ContextCompat.getDrawable(requireContext(), R.drawable.button_non_color)
+//            isShop = true
+//        }
+//        binding.btnTakeout.setOnClickListener {
+//            binding.btnTakeout.background = ContextCompat.getDrawable(requireContext(), R.drawable.button_color)
+//            binding.btnShop.background = ContextCompat.getDrawable(requireContext(), R.drawable.button_non_color)
+//            isShop = false
+//        }
         binding.btnOrder.setOnClickListener {
             if(isShop) showDialogForOrderInShop()
             else {
