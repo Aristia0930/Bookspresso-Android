@@ -30,17 +30,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:background="@drawable/tab_background"
             android:padding="4dp"
-            app:tabIndicator="@color/coffee_light_gray"
-            app:tabIndicatorColor="@color/white"
-            app:tabSelectedTextColor="@color/coffee_light_white"
-            app:tabTextColor="@color/coffee_light_gray">
+            app:tabIndicatorColor="#BC8F66"
+            app:tabSelectedTextColor="#BC8F66"
+            app:tabTextColor="#666666">
 
             <com.google.android.material.tabs.TabItem
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@color/coffee_dark_brown"
                 android:text="음료" />
 
             <com.google.android.material.tabs.TabItem
@@ -75,8 +72,7 @@
         app:elevation="6dp"
         app:fabSize="normal"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:useCompatPadding="true" />
+        app:layout_constraintEnd_toEndOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
 
 
