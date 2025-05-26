@@ -3,37 +3,47 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#F5E9DA">
 
+    <!-- 헤더 섹션 -->
     <LinearLayout
         android:id="@+id/header_section"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:paddingTop="24dp"
         android:paddingBottom="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+        <!-- 타이틀 텍스트 -->
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center_horizontal"
-            android:paddingVertical="24dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-medium"
+            android:gravity="center"
+            android:paddingVertical="12dp"
             android:text="Drink &amp; Dessert"
-            android:layout_marginStart="16dp"
-            android:textSize="24sp"
+            android:textColor="#5D4037"
+            android:textSize="28sp"
             android:textStyle="bold" />
 
+        <!-- 탭 레이아웃 -->
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tab_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:padding="4dp"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/tab_background"
             app:tabIndicatorColor="#BC8F66"
-            app:tabSelectedTextColor="#BC8F66"
-            app:tabTextColor="#666666">
+            app:tabIndicatorFullWidth="false"
+            app:tabIndicatorHeight="3dp"
+            app:tabRippleColor="@android:color/transparent"
+            app:tabSelectedTextColor="#5D4037"
+            app:tabTextColor="#9E9E9E">
 
             <com.google.android.material.tabs.TabItem
                 android:layout_width="wrap_content"
@@ -44,8 +54,55 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="디저트" />
-
         </com.google.android.material.tabs.TabLayout>
+
+
+        <!-- 검색 바 추가 -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/search_bar_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="12dp"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="2dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingHorizontal="16dp">
+
+                <ImageView
+                    android:id="@+id/search_icon"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@android:drawable/ic_menu_search"
+                    app:tint="#9E9E9E" />
+
+                <EditText
+                    android:id="@+id/search_edit_text"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="8dp"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:hint="메뉴 검색"
+                    android:imeOptions="actionSearch"
+                    android:inputType="text"
+                    android:textColorHint="#9E9E9E"
+                    android:textSize="16sp" />
+
+                <ImageView
+                    android:id="@+id/clear_search_icon"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@android:drawable/ic_menu_close_clear_cancel"
+                    android:visibility="gone"
+                    app:tint="#9E9E9E" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
 
     </LinearLayout>
 
@@ -67,12 +124,14 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
-        android:src="@drawable/shopping_cart"
-        app:backgroundTint="@color/coffee_brown_light"
+        android:src="@drawable/payment_icon_yellow_medium"
+        app:maxImageSize="48dp"
+        app:tint="@null"
+        app:backgroundTint="#FDE900"
         app:elevation="6dp"
         app:fabSize="normal"
+        app:cornerFamily="rounded"
+        app:cornerSize="30%"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
-
-
