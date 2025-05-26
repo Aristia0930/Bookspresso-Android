@@ -44,7 +44,7 @@ class ManagerFragment : BaseFragment<FragmentManagerBinding>(
         binding.logout.setOnClickListener{
             ApplicationClass.sharedPreferencesUtil.deleteUser()
             ApplicationClass.sharedPreferencesUtil.deleteUserCookie()
-            ApplicationClass.sharedPreferencesUtil.remove("Authorization")
+            ApplicationClass.tokenPreferencesUtil.clearToken()
 
             val intent = Intent(requireContext(), LoginActivity::class.java).apply {
                 flags = Intent.FLAG_ACTIVITY_CLEAR_TASK + Intent.FLAG_ACTIVITY_NEW_TASK

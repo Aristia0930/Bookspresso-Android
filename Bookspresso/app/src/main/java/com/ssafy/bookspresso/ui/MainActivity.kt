@@ -230,6 +230,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         // 로그 아웃.
         ApplicationClass.sharedPreferencesUtil.deleteUser()
         ApplicationClass.sharedPreferencesUtil.deleteUserCookie()
+        ApplicationClass.tokenPreferencesUtil.clearToken()
 
         // 화면이동.
         val intent = Intent(this, LoginActivity::class.java).apply {
