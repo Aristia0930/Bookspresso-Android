@@ -22,6 +22,8 @@ class OrderViewModel : ViewModel() {
     private val _filteredProductList = MutableLiveData<List<Product>>() // 필터링된 리스트
     val filteredProductList: LiveData<List<Product>> get() = _filteredProductList
 
+    private var tabFilteredList: List<Product> = listOf()
+
     private val _kakaoPayResponse = MutableLiveData<KakaoPayReadyResponse>()
     val kakaoPayReadyResponse: LiveData<KakaoPayReadyResponse>
         get() = _kakaoPayResponse
@@ -42,9 +44,26 @@ class OrderViewModel : ViewModel() {
 
     fun filterProductList(type: String) {
         _productList.value?.let { list ->
-            _filteredProductList.value = list.filter { it.type == type }
+            tabFilteredList = list.filter { it.type == type }
+            _filteredProductList.value = tabFilteredList
         }
     }
+
+
+    fun searchProduct(currentType: String, query: String) {
+        if (query.isBlank()) {
+            // 검색어 없을 경우 현재 탭 기준 필터 다시 적용
+            filterProductList(currentType)
+            return
+        }
+
+        // 탭 필터 기준 리스트에서 검색
+        val result = tabFilteredList.filter {
+            it.name.contains(query, ignoreCase = true)
+        }
+        _filteredProductList.value = result
+    }
+
 
     fun requestPayment(kakaoReadyRequest: KakaoReadyRequest) {
         viewModelScope.launch {

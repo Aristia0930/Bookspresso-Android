@@ -4,12 +4,14 @@ import android.content.Context
 import android.graphics.Color
 import android.media.Image
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.view.setPadding
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.distinctUntilChanged
@@ -32,6 +34,8 @@ class CafeFragment : BaseFragment<FragmentCafeBinding>(FragmentCafeBinding::bind
     private val activityViewModel: MainActivityViewModel by activityViewModels()
     private val orderViewModel: OrderViewModel by viewModels()
 
+    private var selectedType = "drink"
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
         mainActivity = context as MainActivity
@@ -52,7 +56,17 @@ class CafeFragment : BaseFragment<FragmentCafeBinding>(FragmentCafeBinding::bind
 
         initData()
         initEvent()
+        initSearch()
     }
+
+    private fun initSearch() {
+        binding.searchEditText.addTextChangedListener { text ->
+            val query = text.toString().trim()
+            Log.d(TAG, "initSearch: 검색어 입력됨: $query")
+            orderViewModel.searchProduct(selectedType, query)
+        }
+    }
+
 
     private fun initData() {
         val tabLayout = binding.tabLayout
@@ -86,7 +100,7 @@ class CafeFragment : BaseFragment<FragmentCafeBinding>(FragmentCafeBinding::bind
             override fun onTabSelected(tab: TabLayout.Tab) {
                 applySelectedTabStyle(tab)
 
-                val selectedType = when (tab.position) {
+                selectedType = when (tab.position) {
                     0 -> "drink"
                     1 -> "dessert"
                     else -> "drink"
