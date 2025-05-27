@@ -5,101 +5,112 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#F5E9DA"
+    android:fitsSystemWindows="true"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:paddingStart="16dp"
+    android:paddingTop="16dp"
+    android:paddingEnd="16dp"
+    android:paddingBottom="16dp">
 
-    <!-- 상단: 방 번호 및 결제 수단 -->
     <LinearLayout
-        android:id="@+id/roomInfoSection"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingBottom="16dp">
+        android:layout_height="match_parent"
+        android:layout_margin="16dp"
+        android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/textRoomNumber"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingBottom="4dp"
-            android:text="방 번호: ---"
-            android:textColor="@color/coffee_dark_brown"
-            android:textSize="32sp"
-            android:textStyle="bold" />
-
+        <!-- 상단: 방 번호 및 결제 수단 -->
         <LinearLayout
+            android:id="@+id/roomInfoSection"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="16dp">
 
             <TextView
-                android:id="@+id/textPaymentMethod"
+                android:id="@+id/textRoomNumber"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="결제 수단: "
-                android:textColor="@color/coffee_brown"
-                android:textSize="16sp" />
+                android:paddingBottom="4dp"
+                android:text="방 번호: ---"
+                android:textColor="@color/coffee_dark_brown"
+                android:textSize="32sp"
+                android:textStyle="bold" />
 
-            <ImageButton
-                android:id="@+id/iconPaymentMethod"
-                android:layout_width="60dp"
-                android:layout_height="wrap_content"
-                android:adjustViewBounds="true"
-                android:background="@null"
-                android:scaleType="fitCenter"
-                android:src="@drawable/payment_icon_yellow_medium" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/textPaymentMethod"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="결제 수단: "
+                    android:textColor="@color/coffee_brown"
+                    android:textSize="16sp" />
+
+                <ImageButton
+                    android:id="@+id/iconPaymentMethod"
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:adjustViewBounds="true"
+                    android:background="@null"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/payment_icon_yellow_medium" />
 
 
+            </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
 
-    <!-- 장바구니 RecyclerView -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewShoppingList"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:paddingVertical="8dp"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:listitem="@layout/list_item_shopping_list" />
-
-    <!-- 총 개수 및 금액 -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingVertical="12dp">
-
-        <TextView
-            android:id="@+id/textShoppingCount"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+        <!-- 장바구니 RecyclerView -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewShoppingList"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
             android:layout_weight="1"
-            android:text="총 0개"
-            android:textColor="@color/coffee_dark_brown"
-            android:textSize="16sp"
-            android:textStyle="bold" />
+            android:paddingVertical="8dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/list_item_shopping_list" />
 
-        <TextView
-            android:id="@+id/textShoppingMoney"
-            android:layout_width="wrap_content"
+        <!-- 총 개수 및 금액 -->
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="0 원"
-            android:textColor="@color/coffee_dark_brown"
-            android:textSize="16sp"
-            android:textStyle="bold" />
-    </LinearLayout>
+            android:orientation="horizontal"
+            android:paddingVertical="12dp">
 
-    <!-- 주문하기 버튼 -->
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnOrder"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:paddingVertical="12dp"
-        android:text="카카오페이로 주문하기"
-        android:textSize="18sp"
-        app:icon="@drawable/kakaotalk_sharing_btn_small"
-        app:iconGravity="textStart"
-        app:iconPadding="8dp"
-        app:iconSize="24dp"
-        app:iconTint="@null" />
+            <TextView
+                android:id="@+id/textShoppingCount"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="총 0개"
+                android:textColor="@color/coffee_dark_brown"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/textShoppingMoney"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0 원"
+                android:textColor="@color/coffee_dark_brown"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <!-- 주문하기 버튼 -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnOrder"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:paddingVertical="12dp"
+            android:text="카카오페이로 주문하기"
+            android:textSize="18sp"
+            app:icon="@drawable/kakaotalk_sharing_btn_small"
+            app:iconGravity="textStart"
+            app:iconPadding="8dp"
+            app:iconSize="24dp"
+            app:iconTint="@null" />
+    </LinearLayout>
 </LinearLayout>

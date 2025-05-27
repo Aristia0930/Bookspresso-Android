@@ -65,7 +65,12 @@ class ShoppingListFragment : BaseFragment<FragmentShoppingListBinding>(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        val savedTable = ApplicationClass.sharedPreferencesUtil.getTable()
+        if (savedTable != null) {
+            hasTagged = true
+            table = savedTable
+            binding.textRoomNumber.text = "방 번호 : ${savedTable.replace("Table:", "")}"
+        }
         initAdapter()
         initEvent()
         refreshList()
@@ -192,6 +197,7 @@ class ShoppingListFragment : BaseFragment<FragmentShoppingListBinding>(
         if (!data.contains("Table")) return
         hasTagged = true
         table = data
+        ApplicationClass.sharedPreferencesUtil.saveTable(data)
         binding.textRoomNumber.text = "방 번호 : ${data.replace("Table:", "")}"
         dialog?.cancel()
     }

@@ -24,9 +24,18 @@ class OrderViewModel : ViewModel() {
 
     private var tabFilteredList: List<Product> = listOf()
 
+    private val _selectedType = MutableLiveData<String>("drink")  // 기본값 drink
+    val selectedType: LiveData<String> get() = _selectedType
+
     private val _kakaoPayResponse = MutableLiveData<KakaoPayReadyResponse>()
     val kakaoPayReadyResponse: LiveData<KakaoPayReadyResponse>
         get() = _kakaoPayResponse
+
+    fun setSelectedType(type: String) {
+        if (_selectedType.value == type) return
+        _selectedType.value = type
+        filterProductList(type)
+    }
 
     fun getProductList() {
         viewModelScope.launch {
@@ -34,7 +43,7 @@ class OrderViewModel : ViewModel() {
                 RetrofitUtil.productService.getProductList()
             }.onSuccess {
                 _productList.value = it
-                filterProductList("drink") // 기본 필터 적용 (예: drink 탭)
+                filterProductList(_selectedType.value ?: "drink")
             }.onFailure {
                 _productList.value = emptyList()
                 _filteredProductList.value = emptyList()
@@ -50,10 +59,10 @@ class OrderViewModel : ViewModel() {
     }
 
 
-    fun searchProduct(currentType: String, query: String) {
+    fun searchProduct(query: String) {
         if (query.isBlank()) {
             // 검색어 없을 경우 현재 탭 기준 필터 다시 적용
-            filterProductList(currentType)
+            filterProductList(_selectedType.value ?: "drink")
             return
         }
 

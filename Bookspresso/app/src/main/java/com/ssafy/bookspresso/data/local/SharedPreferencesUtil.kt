@@ -2,10 +2,13 @@ package com.ssafy.bookspresso.data.local
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.util.Log
 import com.google.gson.Gson
 import com.ssafy.bookspresso.data.model.dto.User
 
-class SharedPreferencesUtil (context: Context) {
+private const val TAG = "SharedPreferencesUtil_싸피"
+
+class SharedPreferencesUtil(context: Context) {
     val SHARED_PREFERENCES_NAME = "smartstore_preference"
     val COOKIES_KEY_NAME = "cookies"
 
@@ -13,7 +16,7 @@ class SharedPreferencesUtil (context: Context) {
         context.getSharedPreferences(SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE)
 
     //사용자 정보 저장
-    fun addUser(user: User){
+    fun addUser(user: User) {
         val editor = preferences.edit()
         editor.putString("id", user.id)
         editor.putString("name", user.name)
@@ -22,18 +25,19 @@ class SharedPreferencesUtil (context: Context) {
 
     fun getUser(): User {
         val id = preferences.getString("id", "")
-        if (id != ""){
+        if (id != "") {
             val name = preferences.getString("name", "")
-            return User(id!!, name!!, "",0,"")
-        }else{
+            return User(id!!, name!!, "", 0, "")
+        } else {
             return User()
         }
     }
 
-    fun deleteUser(){
+    fun deleteUser() {
         //preference 지우기
         val editor = preferences.edit()
-        editor.clear()
+        editor.remove("id")
+        editor.remove("name")
         editor.apply()
     }
 
@@ -50,7 +54,6 @@ class SharedPreferencesUtil (context: Context) {
     fun deleteUserCookie() {
         preferences.edit().remove(COOKIES_KEY_NAME).apply()
     }
-
 
 
     fun addNotice(info: String) {
@@ -72,9 +75,12 @@ class SharedPreferencesUtil (context: Context) {
         }
     }
 
-    fun getNotice() : MutableList<String> {
+    fun getNotice(): MutableList<String> {
         val str = preferences.getString("notice", "")!!
-        val list = if(str.isEmpty()) mutableListOf<String>() else Gson().fromJson(str, MutableList::class.java) as MutableList<String>
+        val list = if (str.isEmpty()) mutableListOf<String>() else Gson().fromJson(
+            str,
+            MutableList::class.java
+        ) as MutableList<String>
 
         return list
     }
@@ -89,7 +95,7 @@ class SharedPreferencesUtil (context: Context) {
         return prefs.getString(key, null)
     }
 
-    fun getString(key:String): String? {
+    fun getString(key: String): String? {
         return preferences.getString(key, null)
     }
 
@@ -101,8 +107,26 @@ class SharedPreferencesUtil (context: Context) {
 
     fun remove(s: String) {
         val editor = preferences.edit()
-        editor.remove(s)
+        editor.remove(s).apply()
 
     }
+
+    // SharedPreferencesUtil.kt
+
+    fun saveTable(table: String) {
+        Log.d(TAG, "saveTable: $table")
+        preferences.edit().putString("table", table).apply()
+    }
+
+    fun getTable(): String? {
+        val value = preferences.getString("table", null)
+        Log.d(TAG, "getTable: $value")
+        return value
+    }
+
+    fun removeTable() {
+        preferences.edit().remove("table").apply()
+    }
+
 
 }

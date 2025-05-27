@@ -51,7 +51,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::i
                 ApplicationClass.sharedPreferencesUtil.deleteUser()
                 val isLoggedIn = loginFragmentViewModel.jwtIsUsed()
                 user = ApplicationClass.sharedPreferencesUtil.getUser()
-                delay(2000L)
+                delay(2500L)
                 lottieView.cancelAnimation()
                 lottieView.visibility = View.GONE
                 if (isLoggedIn && user.id != "") {

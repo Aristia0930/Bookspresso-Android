@@ -45,19 +45,37 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(
     private fun initRecommendData() {
         viewModel.getRecommendation()
         viewModel.recommendation.observe(viewLifecycleOwner){
-            binding.rcmdBookTitle.text = it.book.title
+            val book = it.book
+            val drink = it.drink
+            val dessert = it.dessert
+            binding.rcmdReasonText.text = it.reason
+            binding.rcmdBookTitle.text = book.title
             Glide.with(this)
-                .load("${ApplicationClass.BOOK_IMGS_URL}${it.book.img}")
+                .load("${ApplicationClass.BOOK_IMGS_URL}${book.img}")
                 .into(binding.rcmdBookCoverImage)
-            binding.rcmdDrinkName.text = it.drink.name
+            binding.rcmdDrinkName.text = drink.name
             Glide.with(this)
-                .load("${ApplicationClass.MENU_IMGS_URL}${it.drink.img}")
+                .load("${ApplicationClass.MENU_IMGS_URL}${drink.img}")
                 .into(binding.rcmdDrinkImage)
-            binding.rcmdDessertName.text = it.dessert.name
+            binding.rcmdDessertName.text = dessert.name
             Glide.with(this)
-                .load("${ApplicationClass.MENU_IMGS_URL}${it.dessert.img}")
+                .load("${ApplicationClass.MENU_IMGS_URL}${dessert.img}")
                 .into(binding.rcmdDessertImage)
 
+
+            binding.rcmdBookCoverImage.setOnClickListener {
+                // 책 상세 화면으로 이동
+                activityViewModel.setBookId(book.isbn)
+                mainActivity.openFragment(4) // 예시 메서드명
+            }
+            binding.rcmdDrinkImage.setOnClickListener {
+                activityViewModel.setProductId(drink.id)
+                mainActivity.openFragment(3)
+            }
+            binding.rcmdDessertImage.setOnClickListener {
+                activityViewModel.setProductId(dessert.id)
+                mainActivity.openFragment(3)
+            }
         }
     }
 
