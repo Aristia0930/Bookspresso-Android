@@ -6,6 +6,7 @@ import android.view.View
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
 import com.ssafy.bookspresso.R
 import com.ssafy.bookspresso.base.ApplicationClass
 import com.ssafy.bookspresso.base.BaseFragment
@@ -35,10 +36,29 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(
 
         initAdapter()
         initUserData()
-        initOrderData(id)
+//        initOrderData(id)
+        initRecommendData()
 
 
+    }
 
+    private fun initRecommendData() {
+        viewModel.getRecommendation()
+        viewModel.recommendation.observe(viewLifecycleOwner){
+            binding.rcmdBookTitle.text = it.book.title
+            Glide.with(this)
+                .load("${ApplicationClass.BOOK_IMGS_URL}${it.book.img}")
+                .into(binding.rcmdBookCoverImage)
+            binding.rcmdDrinkName.text = it.drink.name
+            Glide.with(this)
+                .load("${ApplicationClass.MENU_IMGS_URL}${it.drink.img}")
+                .into(binding.rcmdDrinkImage)
+            binding.rcmdDessertName.text = it.dessert.name
+            Glide.with(this)
+                .load("${ApplicationClass.MENU_IMGS_URL}${it.dessert.img}")
+                .into(binding.rcmdDessertImage)
+
+        }
     }
 
     private fun initUserData(){

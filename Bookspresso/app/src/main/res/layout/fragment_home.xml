@@ -83,6 +83,7 @@
 
         <!-- 오늘의 추천 섹션 -->
         <TextView
+            android:id="@+id/recommendationTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="🌟 오늘의 책 &amp; 디저트 추천"
@@ -91,13 +92,139 @@
             android:textColor="#3E2723"
             android:layout_marginBottom="8dp" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerViewRecommendation"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="160dp"
-            android:layout_marginBottom="32dp"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            android:orientation="horizontal" />
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginVertical="16dp"
+            app:layout_constraintTop_toBottomOf="@id/recommendationTitle">
+
+            <!-- 책 추천 -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="책"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="8dp"/>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="100dp"
+                    android:layout_height="120dp"
+                    app:cardCornerRadius="8dp"
+                    app:cardElevation="2dp"
+                    android:backgroundTint="@color/white"
+                    android:layout_marginBottom="8dp">
+
+                    <ImageView
+                        android:id="@+id/rcmdBookCoverImage"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/coffee1"/>
+                </com.google.android.material.card.MaterialCardView>
+
+                <TextView
+                    android:id="@+id/rcmdBookTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="책 제목"
+                    android:textSize="12sp"
+                    android:maxLines="1"
+                    android:ellipsize="end"/>
+            </LinearLayout>
+
+            <!-- 음료 추천 -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="drink"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="8dp"/>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="100dp"
+                    android:layout_height="120dp"
+                    app:cardCornerRadius="8dp"
+                    app:cardElevation="2dp"
+                    android:backgroundTint="@color/white"
+                    android:layout_marginBottom="8dp">
+
+                    <ImageView
+                        android:id="@+id/rcmdDrinkImage"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/coffee1"/>
+                </com.google.android.material.card.MaterialCardView>
+
+                <TextView
+                    android:id="@+id/rcmdDrinkName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="음료 이름"
+                    android:textSize="12sp"
+                    android:maxLines="1"
+                    android:ellipsize="end"/>
+            </LinearLayout>
+
+            <!-- 디저트 추천 -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="dessert"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="8dp"/>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="100dp"
+                    android:layout_height="120dp"
+                    app:cardCornerRadius="8dp"
+                    app:cardElevation="2dp"
+                    android:backgroundTint="@color/white"
+                    android:layout_marginBottom="8dp">
+
+                    <ImageView
+                        android:id="@+id/rcmdDessertImage"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/coffee1"/>
+                </com.google.android.material.card.MaterialCardView>
+
+                <TextView
+                    android:id="@+id/rcmdDessertName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="디저트 이름"
+                    android:textSize="12sp"
+                    android:maxLines="1"
+                    android:ellipsize="end"/>
+            </LinearLayout>
+        </LinearLayout>
 
         <!-- 북카페 혜택 안내 카드 -->
         <androidx.cardview.widget.CardView

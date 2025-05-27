@@ -10,5 +10,6 @@ class RetrofitUtil {
         val userService = ApplicationClass.retrofit.create(UserService::class.java)
         val bookService = ApplicationClass.retrofit.create(BookService::class.java)
         val kakaoPayService = ApplicationClass.retrofit.create(KakaoPayService::class.java)
+        val gptService = ApplicationClass.retrofit.create(GptService::class.java)
     }
 }
