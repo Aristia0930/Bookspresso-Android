@@ -2,8 +2,11 @@ package com.ssafy.bookspresso.ui
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.View
+import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -26,7 +29,22 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::i
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        val textView = findViewById<TextView>(R.id.appNameText)
+        val text = "Bookspresso"
+        var charIndex = 0
+        val handler = Handler(Looper.getMainLooper())
 
+        textView.text = ""
+        val runnable = object : Runnable {
+            override fun run() {
+                if (charIndex < text.length) {
+                    textView.append(text[charIndex].toString())
+                    charIndex++
+                    handler.postDelayed(this, 100) // 100ms마다 한 글자씩
+                }
+            }
+        }
+        handler.postDelayed(runnable, 100)
 
         //로그인 된 상태인지 확인
         var user = ApplicationClass.sharedPreferencesUtil.getUser()

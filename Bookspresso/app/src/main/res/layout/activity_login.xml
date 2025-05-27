@@ -14,6 +14,19 @@
         app:lottie_rawRes="@raw/loading_animation"
         app:lottie_loop="true"
         app:lottie_autoPlay="false"/>
+
+    <TextView
+        android:id="@+id/appNameText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Bookspresso"
+        android:fontFamily="@font/pacifico_regular"
+        android:textColor="#000000"
+        android:textSize="48sp"
+        android:layout_below="@id/lottieLoading"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="8dp"/>
+
     <FrameLayout
         android:id="@+id/frame_layout_login"
         android:layout_width="match_parent"
