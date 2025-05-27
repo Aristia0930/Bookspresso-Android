@@ -155,6 +155,7 @@ class MenuDetailFragment : BaseFragment<FragmentMenuDetailBinding>(FragmentMenuD
             }?.apply {
                 activityViewModel.addShoppingList(this)
                 showToast("상품이 장바구니에 담겼습니다.")
+
             }
         }
 

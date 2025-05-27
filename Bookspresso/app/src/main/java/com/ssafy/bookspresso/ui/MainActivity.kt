@@ -232,6 +232,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         // 로그 아웃.
         ApplicationClass.sharedPreferencesUtil.deleteUser()
         ApplicationClass.sharedPreferencesUtil.deleteUserCookie()
+        ApplicationClass.sharedPreferencesUtil.removeTable()
         ApplicationClass.tokenPreferencesUtil.clearToken()
 
         // 화면이동.

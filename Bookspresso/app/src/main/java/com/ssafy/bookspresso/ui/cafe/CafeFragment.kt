@@ -34,8 +34,6 @@ class CafeFragment : BaseFragment<FragmentCafeBinding>(FragmentCafeBinding::bind
     private val activityViewModel: MainActivityViewModel by activityViewModels()
     private val orderViewModel: OrderViewModel by viewModels()
 
-    private var selectedType = "drink"
-
     override fun onAttach(context: Context) {
         super.onAttach(context)
         mainActivity = context as MainActivity
@@ -57,13 +55,41 @@ class CafeFragment : BaseFragment<FragmentCafeBinding>(FragmentCafeBinding::bind
         initData()
         initEvent()
         initSearch()
+        observeViewModel()
+    }
+
+    private fun observeViewModel() {
+        orderViewModel.selectedType.observe(viewLifecycleOwner) { type ->
+            val tabLayout = binding.tabLayout
+            val drinkTab = tabLayout.getTabAt(0)
+            val dessertTab = tabLayout.getTabAt(1)
+
+            when (type) {
+                "drink" -> {
+                    tabLayout.selectTab(drinkTab)
+                    applySelectedTabStyle(drinkTab!!)
+                    removeSelectedTabStyle(dessertTab!!)
+                }
+                "dessert" -> {
+                    tabLayout.selectTab(dessertTab)
+                    applySelectedTabStyle(dessertTab!!)
+                    removeSelectedTabStyle(drinkTab!!)
+                }
+            }
+            // 리스트 필터는 ViewModel이 이미 처리하므로 여기선 호출 불필요
+        }
+
+        orderViewModel.filteredProductList.distinctUntilChanged().observe(viewLifecycleOwner) {
+            menuAdapter.productList = it
+            menuAdapter.notifyDataSetChanged()
+        }
     }
 
     private fun initSearch() {
         binding.searchEditText.addTextChangedListener { text ->
             val query = text.toString().trim()
             Log.d(TAG, "initSearch: 검색어 입력됨: $query")
-            orderViewModel.searchProduct(selectedType, query)
+            orderViewModel.searchProduct(query)
         }
     }
 
@@ -83,16 +109,8 @@ class CafeFragment : BaseFragment<FragmentCafeBinding>(FragmentCafeBinding::bind
         dessertTab.customView = dessertTabView
         tabLayout.addTab(dessertTab)
 
-        tabLayout.selectTab(drinkTab)
-        applySelectedTabStyle(drinkTab)
-        removeSelectedTabStyle(dessertTab)
-        orderViewModel.filterProductList("drink")
-
-        orderViewModel.filteredProductList.distinctUntilChanged().observe(viewLifecycleOwner) {
-            menuAdapter.productList = it
-            menuAdapter.notifyDataSetChanged()
-        }
         orderViewModel.getProductList()
+
     }
 
     private fun initEvent() {
@@ -100,12 +118,12 @@ class CafeFragment : BaseFragment<FragmentCafeBinding>(FragmentCafeBinding::bind
             override fun onTabSelected(tab: TabLayout.Tab) {
                 applySelectedTabStyle(tab)
 
-                selectedType = when (tab.position) {
+                val type = when (tab.position) {
                     0 -> "drink"
                     1 -> "dessert"
                     else -> "drink"
                 }
-                orderViewModel.filterProductList(selectedType)
+                orderViewModel.setSelectedType(type)
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab) {
