@@ -159,8 +159,7 @@
                     android:text="대여한 책이 없습니다"
                     android:textColor="#999999"
                     android:textSize="16sp"
-                    android:visibility="gone"
-                    tools:visibility="visible" />
+                    android:visibility="gone" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 

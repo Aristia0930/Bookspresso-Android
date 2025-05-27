@@ -85,6 +85,7 @@ class MyPageFragment : BaseFragment<FragmentMypageBinding>(
             if (list != null) {
                 if (list.size != 0) {
                     binding.tvMypageOrderEmpty.visibility = View.GONE
+                    binding.tvMyBookEmpty.visibility = View.GONE
                     binding.recyclerViewOrder.visibility = View.VISIBLE
                     Log.d(TAG, "initOrderData: ${list}")
 
@@ -93,6 +94,7 @@ class MyPageFragment : BaseFragment<FragmentMypageBinding>(
                 } else {
                     binding.recyclerViewOrder.visibility = View.GONE
                     binding.tvMypageOrderEmpty.visibility = View.VISIBLE
+                    binding.tvMyBookEmpty.visibility = View.VISIBLE
                     Log.d(TAG, "initOrderData: 주문 내역이 없습니다")
                 }
             }
