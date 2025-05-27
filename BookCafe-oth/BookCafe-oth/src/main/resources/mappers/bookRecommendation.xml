@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssafy.cafe.model.dao.RecommendationDao">
+<!--    <select id ="selectByUser" parameterType="User" resultType="User">-->
+<!--        select * from t_user where id=#{id} and pass=#{pass}-->
+<!--    </select>-->
+
+
+    <insert id="insert" parameterType="BookRecommendation" useGeneratedKeys="true" keyProperty="recommendationId">
+        INSERT INTO t_book_recommendation
+        (isbn, drink_id, dessert_id, recommend_date,reason)
+        VALUES
+        (#{isbn}, #{drinkId}, #{dessertId}, #{recommendDate},#{reason})
+    </insert>
+
+    <select id="select" resultType="BookRecommendation">
+        SELECT recommendation_id, isbn, drink_id, dessert_id, recommend_date,reason
+        FROM t_book_recommendation
+        ORDER BY recommend_date DESC
+        LIMIT 1
+    </select>
+
+
+
+</mapper>

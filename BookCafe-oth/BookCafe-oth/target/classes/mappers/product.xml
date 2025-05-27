@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssafy.cafe.model.dao.ProductDao">
+
+	
+  
+  <select id="selectAll" resultType="Product">
+  	select * from t_product order by id asc
+  </select>
+  
+  <resultMap id="productWithCommentResultMap" type="ProductWithComment">
+    <id property="id" column="id"/>
+    <result property="name" column="name"/>
+    <result property="type" column="type"/>
+    <result property="price" column="price"/>
+    <result property="img" column="img"/>
+    <result property="commentCount" column="commentCount"/>
+    <result property="averageStars" column="averageStars"/>
+    <result property="totalSells" column="totalSells"/>
+</resultMap>
+
+<select id="selectWithInfo" resultMap="productWithCommentResultMap">
+    SELECT 
+        p.id AS id,
+        p.name AS name,
+        p.type AS type,
+        p.price AS price,
+        p.img AS img,
+        COUNT(c.id) AS commentCount,
+        IFNULL(AVG(c.rating), 0) AS averageStars,
+        SUM(o.quantity) AS totalSells
+    FROM 
+        t_product p
+    LEFT JOIN 
+        t_comment c ON p.id = c.product_id
+    LEFT JOIN 
+        t_order_detail o ON p.id = o.product_id
+    WHERE 
+        p.id = #{productId}
+    GROUP BY 
+        p.id
+</select>
+
+	
+</mapper>

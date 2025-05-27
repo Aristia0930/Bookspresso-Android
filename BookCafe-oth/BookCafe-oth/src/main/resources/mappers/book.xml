@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.cafe.model.dao.BookDao">
+
+    <select id="getBookList" resultType="Book">
+        select * from t_book order by isbn asc
+    </select>
+
+    <select id="getBook"  parameterType="String" resultType="Book">
+        select * from t_book where isbn=#{isbn}
+    </select>
+
+    <insert id="addRental" parameterType="BookRental">
+        INSERT INTO t_book_rental (user_id, isbn, rental_date, due_date, fee, status)
+        VALUES (#{userId}, #{isbn}, #{rentalDate}, #{dueDate}, #{fee}, #{status})
+    </insert>
+
+
+
+    <select id="getRentalList" resultType="BookRental">
+        select * from t_book_rental order by rental_date desc
+    </select>
+
+    <update id="returned" parameterType="BookRental">
+        UPDATE t_book_rental
+        SET status = #{status},
+        due_date = #{dueDate},
+        fee = #{fee}
+        WHERE rental_id = #{rentalId}
+    </update>
+
+    <select id="getRental" parameterType="string" resultType="BookRental">
+        SELECT * FROM t_book_rental WHERE rental_id = #{rentalId}
+    </select>
+
+    <select id="getRental2" parameterType="string" resultType="BookRental">
+        SELECT * FROM t_book_rental
+        WHERE isbn = #{isbn}
+          AND status IN ('rented', 'overdue')
+    </select>
+    <update id="updateOverdueRentals">
+    <![CDATA[
+        UPDATE t_book_rental
+        SET status = 'overdue'
+        WHERE status = 'rented'
+          AND due_date < CURDATE()
+        ]]>
+</update>
+
+    <resultMap id="BookRentalInfo" type="com.ssafy.cafe.model.dto.BookRentalInfo">
+        <id property="rentalId" column="rental_id" />
+        <result property="userId" column="user_id" />
+        <result property="isbn" column="isbn" />
+        <result property="rentalDate" column="rental_date" />
+        <result property="dueDate" column="due_date" />
+        <result property="fee" column="fee" />
+        <result property="status" column="rental_status" />
+
+        <!-- 중첩된 Book 객체 매핑 -->
+        <association property="book" javaType="com.ssafy.cafe.model.dto.Book">
+            <id property="isbn" column="book_isbn" />
+            <result property="title" column="title" />
+            <result property="author" column="author" />
+            <result property="summary" column="summary" />
+            <result property="status" column="book_status" />
+            <result property="img" column="img" />
+        </association>
+    </resultMap>
+
+    <select id="getRentalInfo" parameterType="string" resultMap="BookRentalInfo">
+        SELECT
+        r.rental_id,
+        r.user_id,
+        r.isbn,
+        r.rental_date,
+        r.due_date,
+        r.fee,
+        r.status AS rental_status,
+        b.isbn AS book_isbn,
+        b.title,
+        b.author,
+        b.summary,
+        b.status AS book_status,
+        b.img
+        FROM
+        t_book_rental r
+        JOIN
+        t_book b ON r.isbn = b.isbn
+        WHERE
+        r.user_id = #{userId}
+        ORDER BY
+        r.rental_id DESC
+    </select>
+
+
+</mapper>

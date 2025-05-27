@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- name space는 BookRepo의 fully qualified name으로 설정한다. -->
+<mapper namespace="com.ssafy.cafe.model.dao.OrderDao">
+<resultMap id="OrderResultMap" type="Order">
+    <result property="id" column="o_id"/>
+    <result property="userId" column="user_id"/>
+    <result property="orderTable" column="order_table"/>
+    <result property="orderTime" column="order_time"/>
+    <result property="completed" column="completed"/>
+</resultMap>
+
+
+
+
+	<insert id="insert" parameterType="order">
+	    INSERT INTO t_order (user_id, order_table, order_time, completed)
+	    VALUES (#{userId}, #{orderTable}, #{orderTime}, #{completed})
+	</insert>
+
+
+	<select id="selectByUser" parameterType="String" resultMap="OrderResultMap">
+	    SELECT * FROM t_order WHERE user_id = #{userId} ORDER BY o_id DESC
+	</select>
+	
+	<select id="selectByid" parameterType="Integer" resultMap="OrderResultMap">
+	
+		select * from t_order where o_id=#{orderId}
+	</select>
+	
+	
+	  <!-- ResultMap 정의 -->
+    <resultMap id="OrderInfoResultMap" type="com.ssafy.cafe.model.dto.OrderInfo">
+        <id property="id" column="id"/>
+        <result property="userId" column="user_id"/>
+        <result property="orderTable" column="order_table"/>
+        <result property="orderTime" column="order_time"/>
+        <result property="completed" column="completed"/>
+        
+        <!-- OrderDetailInfo 리스트 매핑 -->
+        <collection property="details" ofType="com.ssafy.cafe.model.dto.OrderDetailInfo">
+            <id property="id" column="detail_id"/>
+            <result property="orderId" column="order_id"/>
+            <result property="productId" column="product_id"/>
+            <result property="quantity" column="quantity"/>
+            <result property="name" column="product_name"/>
+            <result property="type" column="product_type"/>
+            <result property="unitPrice" column="unit_price"/>
+            <result property="sumPrice" column="sum_price"/>
+            <result property="img" column="product_img"/>
+        </collection>
+    </resultMap>
+
+    <!-- 주문 정보와 관련된 상세 정보를 가져오는 쿼리 -->
+    <select id="selectOrderInfo" resultMap="OrderInfoResultMap">
+        SELECT 
+            o.o_id AS id,
+            o.user_id,
+            o.order_table,
+            o.order_time,
+            o.completed,
+            d.d_id AS detail_id,
+            d.order_id,
+            d.product_id,
+            d.quantity,
+            p.name AS product_name,
+            p.type AS product_type,
+            p.price AS unit_price,
+            (d.quantity * p.price) AS sum_price,
+            p.img AS product_img
+        FROM 
+            t_order o
+        JOIN 
+            t_order_detail d ON o.o_id = d.order_id
+        JOIN 
+            t_product p ON d.product_id = p.id
+        WHERE 
+            o.o_id = #{id}  <!-- 원하는 주문 ID를 전달 -->
+        ORDER BY 
+            d.d_id ASC;  <!-- 주문 상세 항목을 d_id 기준으로 오름차순 정렬 -->
+    </select>
+	
+
+
+
+
+
+    <!-- 관통 프로젝트 6단계에서 추가됨 -->
+    <select id="getLastMonthOrder" parameterType="string" resultType="OrderInfo">
+        select 
+            o.o_id id
+            , o.user_id 
+            , o.order_table
+            , o.order_time
+            , o.completed
+            , o.o_id as order_id
+        from t_order o 
+
+        where user_id = #{id} and order_time > date_add(now(), interval -1 month)
+        order by o.o_id desc
+    </select>
+
+    <select id="getOrderDetailInfo" parameterType="int" resultType="OrderDetailInfo">
+       select 
+            d.d_id as id
+            , o.o_id as order_id
+            , p.id as product_id
+            , d.quantity
+            , p.name
+            , p.price as unit_price
+            , d.quantity*p.price as sum_price
+            , p.type
+            , p.img
+        from t_order o 
+        join t_order_detail d on o.o_id = d.order_id
+        join t_product p on d.product_id = p.id
+        where o_id = #{order_id}
+        order by d.d_id asc;
+    </select>
+    
+    
+    
+    <!-- 관통 프로젝트 6단계에서 추가됨 -->
+    <select id="getLast6MonthOrder" parameterType="string"  resultMap="OrderResult">
+        select 
+            o.o_id id
+            , o.user_id 
+            , o.order_table
+            , o.order_time
+            , o.completed
+            , o.o_id as order_id
+        from t_order o 
+
+        where user_id = #{id} and order_time > date_add(now(), interval -6 month)
+        order by o.o_id desc
+    </select>
+
+
+    <select id="getOrder" resultMap="OrderResult">
+        select
+            o.o_id id
+             , o.user_id
+             , o.order_table
+             , o.order_time
+             , o.completed
+             , o.o_id as order_id
+        from t_order o
+        order by o.o_id desc
+    </select>
+
+
+        
+    <resultMap id="OrderResult" type="OrderInfo">
+        <collection property="details" javaType="ArrayList" column="order_id" ofType="OrderDetailInfo" 
+         select="getOrderDetailInfo"/>
+    </resultMap>
+
+
+    <update id="updateOrderStatus">
+        UPDATE t_order
+        SET completed = #{statusCode}
+        WHERE o_id = #{orderId}
+    </update>
+
+    
+	
+</mapper>
