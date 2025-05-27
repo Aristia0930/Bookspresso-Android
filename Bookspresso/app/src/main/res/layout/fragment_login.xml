@@ -17,12 +17,14 @@
             android:id="@+id/logoImage"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:src="@drawable/logo"
-            android:contentDescription="앱 로고"
+            android:src="@drawable/app_logo"
             app:layout_constraintTop_toTopOf="parent"
             android:layout_marginTop="48dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            android:scaleX="1.8"
+            android:scaleY="1.8"
+            android:scaleType="centerInside"/>
 
         <!-- 로그인 타이틀 -->
         <TextView

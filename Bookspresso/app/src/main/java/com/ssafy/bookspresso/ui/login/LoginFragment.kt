@@ -74,7 +74,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
         }
 
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestIdToken("624340357559-cvdppic6ahu1c5qb5mdn6gqd518nh7eb.apps.googleusercontent.com")  // Firebase 콘솔에서 확인 가능
+            .requestIdToken("624340357559-uudsqmkttvla2mnq4sm99dcgjbu4nqoi.apps.googleusercontent.com")  // Firebase 콘솔에서 확인 가능
             .requestEmail()
             .build()
 

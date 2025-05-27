@@ -16,10 +16,13 @@
         <ImageView
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:src="@drawable/logo"
+            android:src="@drawable/app_logo"
             android:layout_marginTop="48dp"
             android:layout_marginBottom="12dp"
-            android:contentDescription="Bookspresso 로고" />
+            android:contentDescription="Bookspresso 로고"
+            android:scaleX="1.8"
+            android:scaleY="1.8"
+            android:scaleType="centerInside"/>
 
         <!-- 타이틀 -->
         <TextView
