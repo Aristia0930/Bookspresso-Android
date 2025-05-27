@@ -86,4 +86,7 @@ dependencies {
 
     //로티터 로딩화면
     implementation ("com.airbnb.android:lottie:6.3.0")
+
+    //구글 로그인
+    implementation ("com.google.android.gms:play-services-auth:20.7.0")
 }
