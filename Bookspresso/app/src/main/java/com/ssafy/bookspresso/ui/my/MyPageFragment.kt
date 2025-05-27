@@ -85,7 +85,6 @@ class MyPageFragment : BaseFragment<FragmentMypageBinding>(
             if (list != null) {
                 if (list.size != 0) {
                     binding.tvMypageOrderEmpty.visibility = View.GONE
-                    binding.tvMyBookEmpty.visibility = View.GONE
                     binding.recyclerViewOrder.visibility = View.VISIBLE
                     Log.d(TAG, "initOrderData: ${list}")
 
@@ -94,7 +93,6 @@ class MyPageFragment : BaseFragment<FragmentMypageBinding>(
                 } else {
                     binding.recyclerViewOrder.visibility = View.GONE
                     binding.tvMypageOrderEmpty.visibility = View.VISIBLE
-                    binding.tvMyBookEmpty.visibility = View.VISIBLE
                     Log.d(TAG, "initOrderData: 주문 내역이 없습니다")
                 }
             }
@@ -127,8 +125,22 @@ class MyPageFragment : BaseFragment<FragmentMypageBinding>(
 
     fun registerObserver() {
         activityViewModel.booklist.observe(viewLifecycleOwner) {
-            bookListAdapterAdapter.list = it
-            bookListAdapterAdapter.notifyDataSetChanged()
+
+            var list = activityViewModel.booklist.value
+            if (list != null) {
+                if (list.size != 0) {
+                    Log.d(TAG, "registerObserver: o")
+                    binding.tvMyBookEmpty.visibility = View.GONE
+                    binding.recyclerViewMyBook.visibility = View.VISIBLE
+
+                    bookListAdapterAdapter.list = it
+                    bookListAdapterAdapter.notifyDataSetChanged()
+                } else {
+                    Log.d(TAG, "registerObserver: x")
+                    binding.recyclerViewMyBook.visibility = View.GONE
+                    binding.tvMyBookEmpty.visibility = View.VISIBLE
+                }
+            }
         }
         val uid = ApplicationClass.sharedPreferencesUtil.getUser().id
         activityViewModel.getBookRentalList(uid)
