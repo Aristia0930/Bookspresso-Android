@@ -74,6 +74,7 @@ class JoinFragment : BaseFragment<FragmentJoinBinding>(
 
             if (checkedId) {
                 viewModel.insert(id, pass, name)
+                showToast("회원가입 완료!")
                 parentFragmentManager.popBackStack()
             } else {
                 showToast("사용 가능한 ID를 입력해 주세요.")
