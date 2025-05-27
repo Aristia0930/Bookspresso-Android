@@ -110,12 +110,21 @@
             android:layout_marginBottom="16dp"
             android:textSize="14sp" />
 
-        <!-- SNS 버튼 (예시: 카카오) -->
         <ImageButton
+            android:id="@+id/joinGoogleBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@null"
-            android:src="@drawable/kakao_login_medium_wide"/>
+            android:src="@drawable/android_light_sq_su"
+            android:layout_marginBottom="8dp"/>
+
+        <!-- SNS 버튼 (예시: 카카오) -->
+        <ImageButton
+            android:id="@+id/joinKakaoBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:src="@drawable/kakao_login_medium_narrow"/>
 
         <!-- 다른 SNS도 필요 시 추가 가능 -->
 
