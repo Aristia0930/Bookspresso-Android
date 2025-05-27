@@ -7,7 +7,8 @@ import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Query
-
+data class TokenRequest(val token: String)
+data class LoginResponse(val jwt: String)
 interface UserService {
     // 사용자 정보를 추가한다.
     @POST("rest/user")
@@ -30,4 +31,7 @@ interface UserService {
 
     @POST("rest/user/info/jwt")
     suspend fun jwtInfo(): User
+
+    @POST("rest/user/oauth")
+    suspend fun loginWithGoogle(@Body tokenRequest: TokenRequest): Response<Void>
 }

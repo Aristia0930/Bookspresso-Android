@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.ssafy.bookspresso.base.ApplicationClass
 import com.ssafy.bookspresso.data.model.dto.User
 import com.ssafy.bookspresso.data.remote.RetrofitUtil
+import com.ssafy.bookspresso.data.remote.TokenRequest
 import kotlinx.coroutines.launch
 
 private const val TAG = "LoginFragmentViewModel_싸피"
@@ -101,6 +102,38 @@ class LoginFragmentViewModel : ViewModel() {
             _user.value = User()
             ApplicationClass.sharedPreferencesUtil.deleteUser()
             false
+        }
+    }
+    
+    fun loginWithGoogle(gToke: String){
+
+        Log.d(TAG, "loginWithGoogle: ${gToke}")
+        // retrofit으로 호출
+        viewModelScope.launch {
+            runCatching {
+                val response = RetrofitUtil.userService.loginWithGoogle(TokenRequest(gToke))
+                val token = response.headers()["Authorization"]
+
+                if (token != null) {
+                    ApplicationClass.tokenPreferencesUtil.saveToken(token)
+                }
+
+
+            }.onSuccess {
+                runCatching {
+//                    RetrofitUtil.userService.info(User(loginId, loginPass))
+                    RetrofitUtil.userService.jwtInfo()
+                }.onSuccess {
+                    _user.value = it
+                }.onFailure {
+                    Log.d(TAG, "login222: ${it.cause}")
+                    _user.value = User()
+                }
+
+            }.onFailure {
+                Log.d(TAG, "login: ${it.cause}")
+                _user.value = User()
+            }
         }
     }
 
