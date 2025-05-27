@@ -36,8 +36,15 @@ object CommonUtils {
 
     // 시간 계산을 통해 완성된 제품인지 확인
     fun isOrderCompleted(order: OrderResponse): String {
-        Log.d(TAG, "isOrderCompleted: ${order.orderDate.time}")
-        return if( checkTime(order.orderDate.time))  "주문완료" else "진행 중.."
+//        Log.d(TAG, "isOrderCompleted: ${order.orderDate.time}")
+//        return if( checkTime(order.orderDate.time))  "주문완료" else "진행 중.."
+        if(order.orderCompleted=='N'){
+            return "진행중"
+        }else if(order.orderCompleted=='Y'){
+            return "주문완료"
+        }else{
+            return "거절"
+        }
     }
 
     private fun checkTime(time:Long):Boolean{
