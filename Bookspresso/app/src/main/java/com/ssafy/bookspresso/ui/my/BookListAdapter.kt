@@ -54,6 +54,10 @@ class BookListAdapter(var list:List<BookRentalInfo>) :
                     val daysOverdue = TimeUnit.MILLISECONDS.toDays(diff)
                     "연체됨 (D+${daysOverdue})"
                 }
+                "overdueReturned" -> {
+                    val fee = data.fee
+                    "연체료 (${fee}￦)"
+                }
                 else -> "상태 불명"
             }
             text_status.text = text
@@ -62,6 +66,7 @@ class BookListAdapter(var list:List<BookRentalInfo>) :
                 "returned" -> text_status.setTextColor(Color.parseColor("#4CAF50")) // 초록색
                 "rented" -> text_status.setTextColor(Color.parseColor("#2196F3")) // 파란색
                 "overdue" -> text_status.setTextColor(Color.parseColor("#F44336")) // 빨간색
+                "overdueReturned" -> text_status.setTextColor(Color.parseColor("#FFA500"))// 주황
                 else -> text_status.setTextColor(Color.parseColor("#757575")) // 회색
             }
 
