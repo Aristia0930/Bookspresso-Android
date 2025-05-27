@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFFDF8"
+    android:scrollbars="none"
     android:padding="24dp">
 
     <LinearLayout
@@ -37,7 +38,7 @@
             android:layout_height="wrap_content"
             android:text="Bookspresso"
             android:fontFamily="@font/pacifico_regular"
-            android:textSize="16sp"
+            android:textSize="24sp"
             android:layout_marginBottom="16dp" />
         <!-- 공지사항 섹션 -->
         <TextView
@@ -86,11 +87,20 @@
             android:id="@+id/recommendationTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="🌟 오늘의 책 &amp; 디저트 추천"
+            android:text="🌟 오늘의 책 &amp; 디저트 AI Pick!"
             android:textSize="20sp"
             android:textStyle="bold"
             android:textColor="#3E2723"
             android:layout_marginBottom="8dp" />
+
+        <TextView
+            android:id="@+id/rcmdReasonText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="추천 이유"
+            android:fontFamily="@font/nanum_penscript_regular"
+            android:textSize="20sp"
+            />
 
         <LinearLayout
             android:layout_width="match_parent"

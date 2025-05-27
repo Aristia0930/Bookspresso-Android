@@ -1,12 +1,16 @@
 package com.ssafy.bookspresso.ui.cafe
 
 import android.content.Context
+import android.content.res.Resources
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.RatingBar
 import androidx.appcompat.app.AlertDialog
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
@@ -37,13 +41,13 @@ class MenuDetailFragment : BaseFragment<FragmentMenuDetailBinding>(FragmentMenuD
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         viewModel.productId = activityViewModel.productId.value!!
         mainActivity.hideBottomNav(true)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         registerObserver()
         viewModel.getProductInfo()
 
