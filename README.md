@@ -34,3 +34,29 @@ nfc를 이용하여 현재 방번호를 기입할수 있으면
   <img src="/image/7.jpg" width="45%" alt="카카오페이지 이미지 1" />
   <img src="/image/14.jpg" width="45%" alt="카카오페이지 이미지 3" />
 </p>
+
+---
+### 3) 책 대출/반납
+<p align="center">
+  <img src="/image/15.jpg" width="30%" alt="책 이미지 1" />
+  <img src="/image/11.jpg" width="30%" alt="책 이미지 2" />
+  <img src="/image/13.jpg" width="30%" alt="책 이미지 3" />
+</p>
+
+책에 있는 nfc를 스캔하여 책을 대출 반납을 할수 있다.
+
+---
+### 4) 마이페이지
+<p align="center">
+  <img src="/image/3.jpg" width="30%" alt="책 이미지 1" />
+</p>
+
+음식/책 대출 반납 내역 확인가능
+
+---
+### 5) 관리자 페이지
+<p align="center">
+  <img src="/image/6.jpg" width="30%" alt="관리자 이미지 1" />
+</p>
+
+음식 주문이 들어오면 주문내역을 확인할수 있다.
