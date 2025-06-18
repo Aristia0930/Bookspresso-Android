@@ -40,7 +40,7 @@ nfc를 이용하여 현재 방번호를 기입할수 있으면
 <p align="center">
   <img src="/image/15.jpg" width="30%" alt="책 이미지 1" />
   <img src="/image/11.jpg" width="30%" alt="책 이미지 2" />
-  <img src="/image/13.jpg" width="30%" alt="책 이미지 3" />
+  <img src="/image/13.png" width="30%" alt="책 이미지 3" />
 </p>
 
 책에 있는 nfc를 스캔하여 책을 대출 반납을 할수 있다.
@@ -60,3 +60,7 @@ nfc를 이용하여 현재 방번호를 기입할수 있으면
 </p>
 
 음식 주문이 들어오면 주문내역을 확인할수 있다.
+
+---
+### 6) 스프링 주소
+https://github.com/Aristia0930/Bookspresso-spring
